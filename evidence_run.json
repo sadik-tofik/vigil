@@ -1,0 +1,291 @@
+[
+  {
+    "stepNumber": 1,
+    "stepName": "initialize_market",
+    "description": "Initialize Market PDA with manual vault CPIs, Pyth feed address, and BRS Rule 1 parameters.",
+    "txSignature": "3UZHxa2M15MTnqxaN7YhcV5c6MjKQ5f4SppVo78NpDjsXvBZ6XSUcu43Rkr56Gc5GYBsrfiWNmLaSHFEPpdTQSv9",
+    "pdas": {
+      "market": "4AzzVo3q7uEA4FhAAXzgEHYVJenawY1srz2ZeTpgvfVm",
+      "vault_base": "5nv9C68XRZrrCoK2Uam7whR5aia6no8QfissnCfiUBVo",
+      "vault_quote": "GqrnFXreCLifnrNi68aP2rmjg6Kb2Kr5BWq94eZZenNG",
+      "pyth_feed": "9vVo3wcMuzT8mCAhVAJ7Y2Uempbyd8uvw4zhRUASXams"
+    },
+    "args": {
+      "max_conf_bps": 200,
+      "epoch_duration_slots": 120,
+      "conf_filter_mult": 2
+    },
+    "assertions": [
+      {
+        "check": "Market authority matches payer",
+        "expected": "C8oi9BAzmxdU27ENXunQKYp7UgR4DumaQ6cn55JmpdWd",
+        "actual": "C8oi9BAzmxdU27ENXunQKYp7UgR4DumaQ6cn55JmpdWd",
+        "pass": true
+      },
+      {
+        "check": "Initial mode is continuous",
+        "expected": "continuous",
+        "actual": "continuous",
+        "pass": true
+      },
+      {
+        "check": "Epoch duration slots initialized",
+        "expected": 120,
+        "actual": 120,
+        "pass": true
+      }
+    ],
+    "status": "PASSED"
+  },
+  {
+    "stepNumber": 2,
+    "stepName": "set_mock_oracle",
+    "description": "Write Pyth V2 binary format into mock oracle account simulating a Weekend Shock.",
+    "txSignature": "5KyJ5hvQa4BJm2rGpgtkQMSyZbDBCx2QSSit73hVeoCcaGapbDNqx8iiJpC9j7UbevMzNotib9h5Y4DSpKVGTZcK",
+    "pdas": {
+      "mock_oracle": "9vVo3wcMuzT8mCAhVAJ7Y2Uempbyd8uvw4zhRUASXams"
+    },
+    "args": {
+      "price": "$214.50 (214_500_000)",
+      "conf": "$6.00 (6_000_000, ~2798 bps)",
+      "expo": -6,
+      "status": "1 (Trading)",
+      "publish_time": 1789850854
+    },
+    "assertions": [
+      {
+        "check": "Pyth V2 magic number matches 0xa1b2c3d4",
+        "expected": "0xa1b2c3d4",
+        "actual": "0xa1b2c3d4",
+        "pass": true
+      },
+      {
+        "check": "Binary stored price matches 214500000",
+        "expected": "214500000",
+        "actual": "214500000",
+        "pass": true
+      },
+      {
+        "check": "Binary stored confidence matches 6000000",
+        "expected": "6000000",
+        "actual": "6000000",
+        "pass": true
+      }
+    ],
+    "status": "PASSED"
+  },
+  {
+    "stepNumber": 3,
+    "stepName": "evaluate_market_mode",
+    "description": "Evaluate Pyth confidence spread; trips circuit from Continuous to BatchAuction.",
+    "txSignature": "5VXqw6RA2dJNW1XdgP5bMLAnVAWZvhZTi7FDvmEErBrh4qMk4kuDLoeuYpPYb93npthGyrkn1Ymj8XKbRpgUXZgr",
+    "pdas": {
+      "market": "4AzzVo3q7uEA4FhAAXzgEHYVJenawY1srz2ZeTpgvfVm",
+      "epoch_batch": "88QgSKk1b8bDAiY4RsRxXQtF2dHztAd7XJduVnXeyYQy"
+    },
+    "assertions": [
+      {
+        "check": "Market mode flipped to BatchAuction",
+        "expected": "batchAuction",
+        "actual": "batchAuction",
+        "pass": true
+      },
+      {
+        "check": "Epoch 0 initialized in AcceptingOrders state",
+        "expected": "acceptingOrders",
+        "actual": "acceptingOrders",
+        "pass": true
+      },
+      {
+        "check": "Epoch 0 order count is zero",
+        "expected": 0,
+        "actual": 0,
+        "pass": true
+      }
+    ],
+    "status": "PASSED"
+  },
+  {
+    "stepNumber": 4,
+    "stepName": "place_batch_order",
+    "description": "Deposit and escrow orders for Buyer 1, Buyer 2, Seller 1, and Seller 2 into ring buffer.",
+    "txSignature": "5apRZi3An1FwjM2yH7xDGEMSNR4HWZnLYkFiPxNB1MdtKSqwvZ5Mtmi4uee5tmiZiemkRAGvnbmeV7LmMySRHERc",
+    "pdas": {
+      "epoch_batch": "88QgSKk1b8bDAiY4RsRxXQtF2dHztAd7XJduVnXeyYQy",
+      "vault_base": "5nv9C68XRZrrCoK2Uam7whR5aia6no8QfissnCfiUBVo",
+      "vault_quote": "GqrnFXreCLifnrNi68aP2rmjg6Kb2Kr5BWq94eZZenNG"
+    },
+    "args": {
+      "order0_buyer1": "Bid 10 shares @ $214.80 (escrow $2148.00 USDC)",
+      "order1_buyer2": "Bid 5 shares @ $214.50 (escrow $1072.50 USDC)",
+      "order2_seller1": "Ask 8 shares @ $214.20 (escrow 8.0 TTSLA)",
+      "order3_seller2": "Ask 10 shares @ $214.60 (escrow 10.0 TTSLA)"
+    },
+    "assertions": [
+      {
+        "check": "Order count is 4",
+        "expected": 4,
+        "actual": 4,
+        "pass": true
+      },
+      {
+        "check": "Total bid volume is 15 shares (15_000_000)",
+        "expected": "15000000",
+        "actual": "15000000",
+        "pass": true
+      },
+      {
+        "check": "Total ask volume is 18 shares (18_000_000)",
+        "expected": "18000000",
+        "actual": "18000000",
+        "pass": true
+      },
+      {
+        "check": "Vault Base balance is 18.000000 shares",
+        "expected": "18000000",
+        "actual": "18000000",
+        "pass": true
+      },
+      {
+        "check": "Vault Quote balance is $3220.500000 (2148.00 + 1072.50)",
+        "expected": "3220500000",
+        "actual": "3220500000",
+        "pass": true
+      }
+    ],
+    "status": "PASSED"
+  },
+  {
+    "stepNumber": 5,
+    "stepName": "settle_batch_auction",
+    "description": "Permissionless keeper action clearing the uniform auction at maximum matched volume.",
+    "txSignature": "5BhgvQtcZPmpVx8xeTUtcpFcito5iCf5QBKBYZsk2oqzUPLVzgKx7PHXynF3uJEdqCk5H1HvMpFoQUCGHJn9QaJC",
+    "pdas": {
+      "current_batch": "88QgSKk1b8bDAiY4RsRxXQtF2dHztAd7XJduVnXeyYQy",
+      "next_batch": "BcehrgwuWTgzFjFP9UyB5sKH5oMA8Jm2spRv2TU2yk4q"
+    },
+    "assertions": [
+      {
+        "check": "Epoch 0 status is Settled",
+        "expected": "settled",
+        "actual": "settled",
+        "pass": true
+      },
+      {
+        "check": "Clearing price P* = $214.60 (214_600_000)",
+        "expected": "214600000",
+        "actual": "214600000",
+        "pass": true
+      },
+      {
+        "check": "Matched volume Q* = 10 shares (10_000_000)",
+        "expected": "10000000",
+        "actual": "10000000",
+        "pass": true
+      },
+      {
+        "check": "Market current epoch rolled over to 1",
+        "expected": 1,
+        "actual": 1,
+        "pass": true
+      },
+      {
+        "check": "Buyer 1 order filled lot size is 10 shares (100% fill)",
+        "expected": "10000000",
+        "actual": "10000000",
+        "pass": true
+      },
+      {
+        "check": "Buyer 2 order filled lot size is 0 shares (unfilled, limit < P*)",
+        "expected": "0",
+        "actual": "0",
+        "pass": true
+      },
+      {
+        "check": "Seller 1 order filled lot size is 8 shares (100% fill)",
+        "expected": "8000000",
+        "actual": "8000000",
+        "pass": true
+      },
+      {
+        "check": "Seller 2 order filled lot size is 2 shares (pro-rata fill)",
+        "expected": "2000000",
+        "actual": "2000000",
+        "pass": true
+      }
+    ],
+    "status": "PASSED"
+  },
+  {
+    "stepNumber": 6,
+    "stepName": "claim_order_proceeds",
+    "description": "All 4 parties claim filled shares, sale proceeds, unfilled refunds, and price-improvement surplus.",
+    "txSignature": "5KNnjxqu7MC4PQaYKRHaP9p3RBs7jsW1uJPYtLZZAEeAfYUSNmZeHpzHyWP46aYF43zyKdWPbTZACdmzEZgDhqsL",
+    "pdas": {
+      "epoch_batch": "88QgSKk1b8bDAiY4RsRxXQtF2dHztAd7XJduVnXeyYQy"
+    },
+    "assertions": [
+      {
+        "check": "Buyer 1 receives 10 shares of TTSLA",
+        "expected": "10000000",
+        "actual": "10000000",
+        "pass": true
+      },
+      {
+        "check": "Buyer 1 receives $2.00 price-improvement refund",
+        "expected": "2000000",
+        "actual": "2000000",
+        "pass": true
+      },
+      {
+        "check": "Buyer 2 receives 100% unfilled quote refund ($1072.50)",
+        "expected": "1072500000",
+        "actual": "1072500000",
+        "pass": true
+      },
+      {
+        "check": "Seller 1 receives 8 shares @ $214.60 = $1716.80 proceeds",
+        "expected": "1716800000",
+        "actual": "1716800000",
+        "pass": true
+      },
+      {
+        "check": "Seller 2 receives 2 shares @ $214.60 = $429.20 proceeds",
+        "expected": "429200000",
+        "actual": "429200000",
+        "pass": true
+      },
+      {
+        "check": "Seller 2 receives 8 unfilled shares of TTSLA back",
+        "expected": "8000000",
+        "actual": "8000000",
+        "pass": true
+      }
+    ],
+    "status": "PASSED"
+  },
+  {
+    "stepNumber": 7,
+    "stepName": "invariants_zero_leakage",
+    "description": "Verify INV-01 and INV-02: Zero base and quote token leakage from vaults after all claims.",
+    "pdas": {
+      "vault_base": "5nv9C68XRZrrCoK2Uam7whR5aia6no8QfissnCfiUBVo",
+      "vault_quote": "GqrnFXreCLifnrNi68aP2rmjg6Kb2Kr5BWq94eZZenNG"
+    },
+    "assertions": [
+      {
+        "check": "INV-01: Vault Base balance is EXACTLY ZERO",
+        "expected": "0",
+        "actual": "0",
+        "pass": true
+      },
+      {
+        "check": "INV-02: Vault Quote balance is EXACTLY ZERO",
+        "expected": "0",
+        "actual": "0",
+        "pass": true
+      }
+    ],
+    "status": "PASSED"
+  }
+]

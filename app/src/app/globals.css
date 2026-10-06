@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+@theme {
+  --color-neutral-50: var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-150: var(--neutral-150);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-900: var(--neutral-900);
+
+  --color-signal-green: var(--signal-green);
+  --color-signal-violet: var(--signal-violet);
+  --color-signal-amber: var(--signal-amber);
+  --color-signal-red: var(--signal-red);
+
+  --color-solana-echo-start: #6B4FE0;
+  --color-solana-echo-end: #2DBF8C;
+
+  /* Aliases for backwards compatibility during refactor */
+  --color-bg-base: var(--neutral-50);
+  --color-bg-surface: var(--neutral-100);
+  --color-bg-surface-raised: var(--neutral-150);
+  --color-border-subtle: var(--neutral-200);
+  --color-text-primary: var(--neutral-900);
+  --color-text-muted: var(--neutral-500);
+  --color-accent-continuous: var(--signal-green);
+  --color-accent-twilight: var(--signal-violet);
+  --color-accent-danger: var(--signal-red);
+  --color-accent-neutral: var(--signal-amber);
+
+  --font-sans: var(--font-plex-sans), -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-plex-mono), "SF Mono", Consolas, monospace;
+  --font-martian: var(--font-martian-mono), monospace;
+
+  --text-display: 4rem;
+  --text-display--line-height: 4.25rem;
+  --text-display-mobile: 2.5rem;
+  --text-display-mobile--line-height: 2.875rem;
+}
+
+:root, [data-theme="dark"] {
+  --neutral-50: #0D0C0A;
+  --neutral-100: #17140F;
+  --neutral-150: #1F1B15;
+  --neutral-200: #2B2620;
+  --neutral-300: #3A332B;
+  --neutral-400: #5C5347;
+  --neutral-500: #9C9186;
+  --neutral-900: #F2EFEA;
+
+  --signal-green: #3ECF8E;
+  --signal-violet: #B98CE8;
+  --signal-amber: #D9A441;
+  --signal-red: #E5544D;
+
+  --solana-echo-start: #6B4FE0;
+  --solana-echo-end: #2DBF8C;
+
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --neutral-50: #F7F5F1;
+  --neutral-100: #FFFFFF;
+  --neutral-150: #FCFBF8;
+  --neutral-200: #E3DDD2;
+  --neutral-300: #CFC7B8;
+  --neutral-400: #A79C8C;
+  --neutral-500: #6B655C;
+  --neutral-900: #1A1712;
+
+  --signal-green: #1F9D63;
+  --signal-violet: #7C4FC9;
+  --signal-amber: #B87C1F;
+  --signal-red: #C23D36;
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--neutral-50);
+  color: var(--neutral-900);
+  font-family: var(--font-sans);
+}
+
+body {
+  background-color: var(--neutral-50);
+  color: var(--neutral-900);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
+}
+
+/* Monospace numbers tabular display */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--neutral-50);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--neutral-200);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neutral-300);
+}
+
+/* Motion budgets per DESIGN_SYSTEM.md */
+.animate-crossfade {
+  transition: all 200ms ease-in-out;
+}
+
+.num-transition {
+  transition: all 150ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0ms !important;
+  }
+}

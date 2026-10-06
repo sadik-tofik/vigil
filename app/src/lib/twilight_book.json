@@ -1,0 +1,940 @@
+{
+  "address": "HBVEPbKCUemrSTwPQegnKHhA9JfuWJ82DDG8r6VfeQ4h",
+  "metadata": {
+    "name": "twilight_book",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Discrete batch-auction protocol for tokenized equities during TradFi off-hours"
+  },
+  "instructions": [
+    {
+      "name": "cancel_batch_order",
+      "discriminator": [
+        118,
+        240,
+        228,
+        13,
+        97,
+        83,
+        140,
+        184
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "market"
+        },
+        {
+          "name": "epoch_batch",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  97,
+                  116,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "account",
+                "path": "market.current_epoch",
+                "account": "Market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_base",
+          "writable": true
+        },
+        {
+          "name": "vault_quote",
+          "writable": true
+        },
+        {
+          "name": "user_base_ata",
+          "writable": true
+        },
+        {
+          "name": "user_quote_ata",
+          "writable": true
+        },
+        {
+          "name": "base_mint"
+        },
+        {
+          "name": "quote_mint"
+        },
+        {
+          "name": "token_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "order_index",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "claim_order_proceeds",
+      "discriminator": [
+        254,
+        176,
+        200,
+        32,
+        120,
+        28,
+        92,
+        52
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "market"
+        },
+        {
+          "name": "epoch_batch",
+          "writable": true
+        },
+        {
+          "name": "vault_base",
+          "writable": true
+        },
+        {
+          "name": "vault_quote",
+          "writable": true
+        },
+        {
+          "name": "user_base_ata",
+          "writable": true
+        },
+        {
+          "name": "user_quote_ata",
+          "writable": true
+        },
+        {
+          "name": "base_mint"
+        },
+        {
+          "name": "quote_mint"
+        },
+        {
+          "name": "token_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "order_index",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "evaluate_market_mode",
+      "discriminator": [
+        106,
+        167,
+        149,
+        130,
+        51,
+        92,
+        40,
+        171
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "pyth_feed",
+          "docs": [
+            "pyth-sdk-solana's zero-copy `load_price_account`, not by Anchor's",
+            "account macro (a raw Pyth price account has no Anchor discriminator)."
+          ]
+        },
+        {
+          "name": "epoch_batch",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  97,
+                  116,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "account",
+                "path": "market.current_epoch",
+                "account": "Market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize_market",
+      "discriminator": [
+        35,
+        35,
+        189,
+        193,
+        155,
+        48,
+        170,
+        203
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "market",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "base_mint"
+              },
+              {
+                "kind": "account",
+                "path": "quote_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "base_mint"
+        },
+        {
+          "name": "quote_mint"
+        },
+        {
+          "name": "vault_base",
+          "docs": [
+            "`#[account(init, ...)]` — see module doc comment above for why.",
+            "`seeds`/`bump` still gets Anchor to validate this is the canonical",
+            "PDA before the handler runs."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  98,
+                  97,
+                  115,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_quote",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  113,
+                  117,
+                  111,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pyth_feed",
+          "docs": [
+            "PriceFeed deserialization (Sprint 2), not by Anchor's account macro."
+          ]
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "max_conf_bps",
+          "type": "u64"
+        },
+        {
+          "name": "epoch_duration_slots",
+          "type": "u64"
+        },
+        {
+          "name": "conf_filter_mult",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "place_batch_order",
+      "discriminator": [
+        29,
+        18,
+        219,
+        195,
+        251,
+        214,
+        68,
+        184
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "market"
+        },
+        {
+          "name": "epoch_batch",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  97,
+                  116,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "account",
+                "path": "market.current_epoch",
+                "account": "Market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pyth_feed",
+          "docs": [
+            "evaluate_market_mode. `address` constraint ties it to this market."
+          ]
+        },
+        {
+          "name": "vault_base",
+          "writable": true
+        },
+        {
+          "name": "vault_quote",
+          "writable": true
+        },
+        {
+          "name": "user_base_ata",
+          "writable": true
+        },
+        {
+          "name": "user_quote_ata",
+          "writable": true
+        },
+        {
+          "name": "base_mint"
+        },
+        {
+          "name": "quote_mint"
+        },
+        {
+          "name": "token_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "side",
+          "type": {
+            "defined": {
+              "name": "OrderSide"
+            }
+          }
+        },
+        {
+          "name": "lot_size",
+          "type": "u64"
+        },
+        {
+          "name": "limit_price",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "set_mock_oracle",
+      "discriminator": [
+        117,
+        178,
+        5,
+        205,
+        237,
+        50,
+        255,
+        213
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "base_mint",
+          "docs": [
+            "whatever (base_mint, quote_mint) pair a market will be initialized",
+            "with. No data is read from this account."
+          ]
+        },
+        {
+          "name": "quote_mint"
+        },
+        {
+          "name": "mock_oracle",
+          "docs": [
+            "real Pyth account. Created lazily on first call (see handler), not",
+            "via Anchor's `init` constraint — `init` requires an",
+            "AccountSerialize/AccountDeserialize type, which a raw byte buffer",
+            "deliberately is not."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  111,
+                  99,
+                  107,
+                  95,
+                  111,
+                  114,
+                  97,
+                  99,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "base_mint"
+              },
+              {
+                "kind": "account",
+                "path": "quote_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "price",
+          "type": "i64"
+        },
+        {
+          "name": "conf",
+          "type": "u64"
+        },
+        {
+          "name": "expo",
+          "type": "i32"
+        },
+        {
+          "name": "status",
+          "type": "u8"
+        },
+        {
+          "name": "publish_time",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "settle_batch_auction",
+      "discriminator": [
+        233,
+        233,
+        243,
+        233,
+        24,
+        99,
+        67,
+        21
+      ],
+      "accounts": [
+        {
+          "name": "keeper",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "epoch_batch",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  97,
+                  116,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "account",
+                "path": "market.current_epoch",
+                "account": "Market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "next_epoch_batch",
+          "writable": true
+        },
+        {
+          "name": "pyth_feed",
+          "docs": [
+            "A malformed/stale feed here doesn't need to hard-fail the whole",
+            "settlement the way it does in evaluate_market_mode/place_batch_order",
+            "— worst case a bad tie-break still resolves to a price that was",
+            "already validated inside the confidence band at order-placement",
+            "time. Still requires a positive price to scale, same as elsewhere."
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "EpochBatchState",
+      "discriminator": [
+        208,
+        4,
+        190,
+        143,
+        232,
+        161,
+        17,
+        178
+      ]
+    },
+    {
+      "name": "Market",
+      "discriminator": [
+        219,
+        190,
+        213,
+        55,
+        0,
+        227,
+        198,
+        154
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ContinuousTradingHalted",
+      "msg": "Continuous swaps are halted while the market is in BatchAuction mode"
+    },
+    {
+      "code": 6001,
+      "name": "StaleOracle",
+      "msg": "Pyth price feed is stale beyond the allowed staleness window"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidOracleData",
+      "msg": "Pyth feed status or account data is malformed"
+    },
+    {
+      "code": 6003,
+      "name": "OrderPriceExceedsConfidenceBand",
+      "msg": "Order limit price falls outside the dynamic confidence band [P_ref - k*sigma, P_ref + k*sigma]"
+    },
+    {
+      "code": 6004,
+      "name": "BatchFrozen",
+      "msg": "Order action rejected: inside the terminal anti-sniping freeze window"
+    },
+    {
+      "code": 6005,
+      "name": "BatchFull",
+      "msg": "Batch order array is full (max 32 orders per epoch)"
+    },
+    {
+      "code": 6006,
+      "name": "NotInBatchMode",
+      "msg": "Market is not currently in BatchAuction mode"
+    },
+    {
+      "code": 6007,
+      "name": "BatchNotAcceptingOrders",
+      "msg": "Epoch batch is not in AcceptingOrders status"
+    },
+    {
+      "code": 6008,
+      "name": "EpochNotYetEnded",
+      "msg": "Epoch has not yet reached its end slot"
+    },
+    {
+      "code": 6009,
+      "name": "BatchAlreadySettled",
+      "msg": "Epoch batch has already been settled"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidOrderIndex",
+      "msg": "Order index out of range for this batch"
+    },
+    {
+      "code": 6011,
+      "name": "OrderAlreadyClaimed",
+      "msg": "Order has already been claimed"
+    },
+    {
+      "code": 6012,
+      "name": "OrderOwnerMismatch",
+      "msg": "Order does not belong to the calling user"
+    },
+    {
+      "code": 6013,
+      "name": "BatchNotFinalized",
+      "msg": "Epoch batch must be Settled or Voided before proceeds can be claimed"
+    },
+    {
+      "code": 6014,
+      "name": "MathOverflow",
+      "msg": "Arithmetic overflow or underflow in a checked operation"
+    }
+  ],
+  "types": [
+    {
+      "name": "BatchOrder",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "side",
+            "type": {
+              "defined": {
+                "name": "OrderSide"
+              }
+            }
+          },
+          {
+            "name": "lot_size",
+            "type": "u64"
+          },
+          {
+            "name": "limit_price",
+            "type": "u64"
+          },
+          {
+            "name": "filled_lot_size",
+            "type": "u64"
+          },
+          {
+            "name": "claimed",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BatchStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "AcceptingOrders"
+          },
+          {
+            "name": "Frozen"
+          },
+          {
+            "name": "Settled"
+          },
+          {
+            "name": "Voided"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EpochBatchState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market",
+            "type": "pubkey"
+          },
+          {
+            "name": "epoch_id",
+            "type": "u64"
+          },
+          {
+            "name": "start_slot",
+            "type": "u64"
+          },
+          {
+            "name": "end_slot",
+            "type": "u64"
+          },
+          {
+            "name": "total_bid_volume",
+            "type": "u64"
+          },
+          {
+            "name": "total_ask_volume",
+            "type": "u64"
+          },
+          {
+            "name": "matched_volume",
+            "type": "u64"
+          },
+          {
+            "name": "clearing_price",
+            "type": "u64"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "BatchStatus"
+              }
+            }
+          },
+          {
+            "name": "order_count",
+            "type": "u16"
+          },
+          {
+            "name": "orders",
+            "type": {
+              "array": [
+                {
+                  "defined": {
+                    "name": "BatchOrder"
+                  }
+                },
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Market",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "base_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "quote_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "vault_base",
+            "type": "pubkey"
+          },
+          {
+            "name": "vault_quote",
+            "type": "pubkey"
+          },
+          {
+            "name": "pyth_feed",
+            "type": "pubkey"
+          },
+          {
+            "name": "mode",
+            "type": {
+              "defined": {
+                "name": "MarketMode"
+              }
+            }
+          },
+          {
+            "name": "current_epoch",
+            "type": "u64"
+          },
+          {
+            "name": "epoch_duration_slots",
+            "type": "u64"
+          },
+          {
+            "name": "epoch_start_slot",
+            "type": "u64"
+          },
+          {
+            "name": "max_conf_bps",
+            "type": "u64"
+          },
+          {
+            "name": "conf_filter_mult",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketMode",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Continuous"
+          },
+          {
+            "name": "BatchAuction"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderSide",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Bid"
+          },
+          {
+            "name": "Ask"
+          }
+        ]
+      }
+    }
+  ]
+}

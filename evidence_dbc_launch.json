@@ -1,0 +1,48 @@
+{
+  "network": "devnet",
+  "timestamp": "2026-09-20T10:59:59.676Z",
+  "deployer": "C8oi9BAzmxdU27ENXunQKYp7UgR4DumaQ6cn55JmpdWd",
+  "dbcConfig": {
+    "address": "2oTJrtAiAZFeWJpoAchSEyzGxVJixh3BUY7ZDPvCnEGM",
+    "txSignature": "2pLC5cz66wgshLNAZ1TRWCkzhjndVK75bXAZBx6atUHhqMPhKNXey6nCDZEs3MKBGWVquURgY5SjdP4biirSQaJ8",
+    "explorer": "https://explorer.solana.com/tx/2pLC5cz66wgshLNAZ1TRWCkzhjndVK75bXAZBx6atUHhqMPhKNXey6nCDZEs3MKBGWVquURgY5SjdP4biirSQaJ8?cluster=devnet"
+  },
+  "dbcPool": {
+    "mint": "oV46RdoFrSLSipxi9FEUVFbnQiY39Zc4s4dXsE2Lrue",
+    "name": "Tokenized Tesla (Meteora DBC)",
+    "symbol": "bTSLA",
+    "poolPda": "3oJcekrNqpmJUwyCogCgVKF8pWCpg66gYxhsKQU4BZeC",
+    "baseVault": "6tYEnVe3Yg9LhY41ChhgaWX8qvh79dRppAmZiJaPLyHv",
+    "quoteVault": "HqmZSMYFXasfp7BYQDJJNKfd4ZGBR9kfRELJuWXMLjZT",
+    "txSignature": "vSdqdXSUvrth1LsPpm4pYvJryni72GMcYE686taMDBufnzprAPZB4eRWbcVN2EfQ54euc4UisNQxoTiW6tGxEvE",
+    "explorer": "https://explorer.solana.com/tx/vSdqdXSUvrth1LsPpm4pYvJryni72GMcYE686taMDBufnzprAPZB4eRWbcVN2EfQ54euc4UisNQxoTiW6tGxEvE?cluster=devnet",
+    "tokenExplorer": "https://explorer.solana.com/address/oV46RdoFrSLSipxi9FEUVFbnQiY39Zc4s4dXsE2Lrue?cluster=devnet"
+  },
+  "swaps": [
+    {
+      "swapIndex": 1,
+      "amountInSol": 0.005,
+      "txSignature": "2nr81qrUndWGPSwfyY86o7yKkPoEhay1ow8NZB6BWGg2PtwS9kthSymzL987onBtES3AyVSwF39tWLzHVzKDyGgU",
+      "explorer": "https://explorer.solana.com/tx/2nr81qrUndWGPSwfyY86o7yKkPoEhay1ow8NZB6BWGg2PtwS9kthSymzL987onBtES3AyVSwF39tWLzHVzKDyGgU?cluster=devnet"
+    },
+    {
+      "swapIndex": 2,
+      "amountInSol": 0.005,
+      "txSignature": "2PZ5xtxWSFjmZSRaNsb3Lrw7B3nF1PnogF6RsxuUYnNKdJPuNRDJ4UUXtZCxqyhuQpDmnd251bo52iJ5Ch7jguWv",
+      "explorer": "https://explorer.solana.com/tx/2PZ5xtxWSFjmZSRaNsb3Lrw7B3nF1PnogF6RsxuUYnNKdJPuNRDJ4UUXtZCxqyhuQpDmnd251bo52iJ5Ch7jguWv?cluster=devnet"
+    }
+  ],
+  "traderBalanceAfterSwaps": 989216.44643,
+  "twilightMarket": {
+    "marketPda": "9N5oJRLyQciYuE1yPDtqFgUTMFAecmws1RnxFpE6i1EJ",
+    "baseMint": "oV46RdoFrSLSipxi9FEUVFbnQiY39Zc4s4dXsE2Lrue",
+    "quoteMint": "Ba7J5A5jCViRSKk1UPfZZthz3sEBdEQBydh4a6ibJjA",
+    "vaultBase": "7oDb3eFTDH1ug6jpr17pJSqyWGcgRZztv7jRrcyF3UmD",
+    "vaultQuote": "B72G8e42EJBkQQkJYURrhZ4XCpFYtgNyLgw7UJfUqy1B",
+    "pythFeed": "7v33viaWSBW393QzaTKUbrghK346XRcTRkP2G9oQJVEr",
+    "initTxSignature": "3vZuZ81K4CpBz1Fe4AUfgz1rkMWEHmkAt3tQDK4CWEprjeRL9gvXQRYbRYxQfgdFekmccQ5k84yAx3eEUqz484hW",
+    "initExplorer": "https://explorer.solana.com/tx/3vZuZ81K4CpBz1Fe4AUfgz1rkMWEHmkAt3tQDK4CWEprjeRL9gvXQRYbRYxQfgdFekmccQ5k84yAx3eEUqz484hW?cluster=devnet",
+    "oracleTxSignature": "4s3HMjReSa1bjS3822sfhU1A6XLKVDrGYRZiKmKHzGkXXXv2kT9bKUhQijVfqFZ67kHYg8bFXUKfWSEDWXp3nwyu",
+    "oracleExplorer": "https://explorer.solana.com/tx/4s3HMjReSa1bjS3822sfhU1A6XLKVDrGYRZiKmKHzGkXXXv2kT9bKUhQijVfqFZ67kHYg8bFXUKfWSEDWXp3nwyu?cluster=devnet"
+  }
+}
