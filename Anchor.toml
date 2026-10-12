@@ -7,10 +7,10 @@ seeds = false
 skip-lint = false
 
 [programs.localnet]
-twilight_book = "HBVEPbKCUemrSTwPQegnKHhA9JfuWJ82DDG8r6VfeQ4h"
+vigil = "J67mmCdpb4NiMRPEF59JupqHpo3BLbk5Cr82qvGff8iX"
 
 [programs.devnet]
-twilight_book = "HBVEPbKCUemrSTwPQegnKHhA9JfuWJ82DDG8r6VfeQ4h"
+vigil = "J67mmCdpb4NiMRPEF59JupqHpo3BLbk5Cr82qvGff8iX"
 
 [registry]
 url = "https://api.apr.dev"

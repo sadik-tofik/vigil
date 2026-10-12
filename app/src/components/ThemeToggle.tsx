@@ -8,19 +8,32 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Read from document attribute or localStorage, default to dark
-    const stored = localStorage.getItem("twilight_theme") as "dark" | "light" | null;
-    const current = stored || "dark";
-    setTheme(current);
-    document.documentElement.setAttribute("data-theme", current);
+    const syncTheme = () => {
+      const docTheme = document.documentElement.getAttribute("data-theme") as "dark" | "light" | null;
+      const stored = localStorage.getItem("vigil_theme") as "dark" | "light" | null;
+      const systemLight = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+      const current = stored || docTheme || (systemLight ? "light" : "dark");
+      setTheme(current);
+      document.documentElement.setAttribute("data-theme", current);
+    };
+
+    syncTheme();
     setMounted(true);
+
+    window.addEventListener("vigil-theme-change", syncTheme);
+    window.addEventListener("storage", syncTheme);
+    return () => {
+      window.removeEventListener("vigil-theme-change", syncTheme);
+      window.removeEventListener("storage", syncTheme);
+    };
   }, []);
 
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
     document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem("twilight_theme", next);
+    localStorage.setItem("vigil_theme", next);
+    window.dispatchEvent(new Event("vigil-theme-change"));
   };
 
   if (!mounted) {

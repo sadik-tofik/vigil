@@ -33,7 +33,7 @@
     }
   ],
   "traderBalanceAfterSwaps": 989216.44643,
-  "twilightMarket": {
+  "vigilMarket": {
     "marketPda": "9N5oJRLyQciYuE1yPDtqFgUTMFAecmws1RnxFpE6i1EJ",
     "baseMint": "oV46RdoFrSLSipxi9FEUVFbnQiY39Zc4s4dXsE2Lrue",
     "quoteMint": "Ba7J5A5jCViRSKk1UPfZZthz3sEBdEQBydh4a6ibJjA",

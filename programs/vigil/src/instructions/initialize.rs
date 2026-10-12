@@ -12,7 +12,7 @@ use crate::state::*;
 const TOKEN_ACCOUNT_LEN: usize = 165;
 
 // REQ-F01: initializes Market PDA, binds Pyth feed, creates + initializes
-// both vault escrow token accounts.
+// both vault escrow token accounts, and records the new Market in the on-chain Registry PDA.
 //
 // vault_base/vault_quote are UncheckedAccount, not Anchor `init` token
 // accounts: Anchor's `token::mint = ..., token::authority = ...` constraint
@@ -53,6 +53,15 @@ pub struct InitializeMarket<'info> {
     /// PriceFeed deserialization (Sprint 2), not by Anchor's account macro.
     pub pyth_feed: UncheckedAccount<'info>,
 
+    #[account(
+        init_if_needed,
+        payer = authority,
+        space = Registry::SIZE,
+        seeds = [REGISTRY_SEED],
+        bump
+    )]
+    pub registry: Box<Account<'info, Registry>>,
+
     pub token_program: Interface<'info, TokenInterface>,
     pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
@@ -63,12 +72,30 @@ pub fn handler(
     max_conf_bps: u64,
     epoch_duration_slots: u64,
     conf_filter_mult: u64,
+    asset_class: AssetClass,
 ) -> Result<()> {
     require!(epoch_duration_slots > 0, TwilightError::InvalidOracleData);
     require!(conf_filter_mult > 0, TwilightError::InvalidOracleData);
     require!(max_conf_bps > 0, TwilightError::InvalidOracleData);
+    require!(
+        ctx.accounts.base_mint.key() != ctx.accounts.quote_mint.key(),
+        TwilightError::InvalidOracleData
+    );
 
     let market_key = ctx.accounts.market.key();
+
+    // Registry tracking: append new market if not already present
+    let registry = &mut ctx.accounts.registry;
+    if registry.bump == 0 {
+        registry.bump = ctx.bumps.registry;
+    }
+    if !registry.markets.contains(&market_key) {
+        require!(
+            registry.markets.len() < Registry::MAX_MARKETS,
+            TwilightError::BatchFull
+        );
+        registry.markets.push(market_key);
+    }
 
     create_vault(
         &ctx.accounts.authority,
@@ -109,6 +136,7 @@ pub fn handler(
     market.epoch_start_slot = Clock::get()?.slot;
     market.max_conf_bps = max_conf_bps;
     market.conf_filter_mult = conf_filter_mult;
+    market.asset_class = asset_class;
     market.bump = ctx.bumps.market;
 
     Ok(())

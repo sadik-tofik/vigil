@@ -1,7 +1,7 @@
 import { PublicKey, Connection, ComputeBudgetProgram } from '@solana/web3.js';
 import * as anchor from '@coral-xyz/anchor';
 import { Program, AnchorProvider, BN } from '@coral-xyz/anchor';
-import idl from './twilight_book.json';
+import idl from './vigil.json';
 import { MarketState, EpochBatchState, OracleState, BatchOrder, OrderSide } from './types';
 import { decodePythBuffer } from './mockPythDecoder';
 import {
@@ -10,8 +10,8 @@ import {
   createAssociatedTokenAccountIdempotentInstruction,
 } from '@solana/spl-token';
 
-// TwilightBook Deployed Program ID on Solana Devnet
-export const PROGRAM_ID = new PublicKey(idl.address || "HBVEPbKCUemrSTwPQegnKHhA9JfuWJ82DDG8r6VfeQ4h");
+// Vigil Deployed Program ID on Solana Devnet
+export const PROGRAM_ID = new PublicKey(idl.address || "J67mmCdpb4NiMRPEF59JupqHpo3BLbk5Cr82qvGff8iX");
 
 // Default RPC Endpoint (Solana Devnet)
 export const DEFAULT_RPC_URL = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || "https://api.devnet.solana.com";
@@ -20,12 +20,11 @@ export const DEFAULT_RPC_URL = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || "https:
 export const DEVNET_DEPLOYMENT = {
   programId: PROGRAM_ID.toBase58(),
   authority: "C8oi9BAzmxdU27ENXunQKYp7UgR4DumaQ6cn55JmpdWd",
-  marketPda: new PublicKey("4AzzVo3q7uEA4FhAAXzgEHYVJenawY1srz2ZeTpgvfVm"),
+  marketPda: new PublicKey("5mYPKECACVSUpKjLe3snsCUgGaETJbCfb3gGZz5V1nLG"),
+  market2Pda: new PublicKey("7UD7i8AQTThWNYjvccUD8cyT5jy4ikGjDMiuNpevW8v9"),
   vaultBase: new PublicKey("5nv9C68XRZrrCoK2Uam7whR5aia6no8QfissnCfiUBVo"),
   vaultQuote: new PublicKey("GqrnFXreCLifnrNi68aP2rmjg6Kb2Kr5BWq94eZZenNG"),
   mockOracle: new PublicKey("9vVo3wcMuzT8mCAhVAJ7Y2Uempbyd8uvw4zhRUASXams"),
-  epoch0Batch: new PublicKey("88QgSKk1b8bDAiY4RsRxXQtF2dHztAd7XJduVnXeyYQy"),
-  epoch1Batch: new PublicKey("BcehrgwuWTgzFjFP9UyB5sKH5oMA8Jm2spRv2TU2yk4q"),
   baseSymbol: "tTSLA",
   quoteSymbol: "USDC",
   baseMint: new PublicKey("4iYXDWaHC5A1B5ymiLmqAyPt5K2miKS2yBaqHr98p9Am"),
@@ -174,7 +173,7 @@ export async function executeOnChainSetMockOracle(
   program: Program,
   wallet: any,
   priceUSD: number = 214.50,
-  confUSD: number = 6.00,
+  confUSD: number = 0.20,
   expo: number = -6,
   status: number = 1,
   publishTimeSeconds?: number,
@@ -253,7 +252,7 @@ export async function executeOnChainPlaceOrder(
   const [mockOraclePda] = findMockOraclePda(market.baseMint, market.quoteMint);
   const now = Math.floor(Date.now() / 1000);
   const updateOracleIx = await program.methods
-    .setMockOracle(new BN(214_500_000), new BN(6_000_000), -6, 1, new BN(now))
+    .setMockOracle(new BN(214_500_000), new BN(200_000), -6, 1, new BN(now))
     .accounts({
       payer: wallet.publicKey,
       baseMint: market.baseMint,

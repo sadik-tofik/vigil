@@ -1,7 +1,7 @@
 import { DocsPage } from './types';
 
 export interface DocSection {
-  id: 'start-here' | 'core-concepts' | 'instructions' | 'security';
+  id: 'start-here' | 'core-concepts' | 'instructions' | 'security' | 'protocol' | 'tokenomics';
   title: string;
   pages: { slug: string; title: string }[];
 }
@@ -20,7 +20,7 @@ export const DOC_SECTIONS: DocSection[] = [
     id: 'core-concepts',
     title: 'Core Concepts',
     pages: [
-      { slug: 'continuous-vs-twilight', title: 'Continuous vs. Twilight' },
+      { slug: 'continuous-vs-vigil', title: 'Continuous vs. Vigil' },
       { slug: 'uniform-price-clearing', title: 'Uniform Price Clearing' },
       { slug: 'confidence-bands', title: 'Confidence Bands' },
     ],
@@ -38,6 +38,22 @@ export const DOC_SECTIONS: DocSection[] = [
     ],
   },
   {
+    id: 'protocol',
+    title: 'Protocol Mechanics',
+    pages: [
+      { slug: 'discrete-batch-auctions', title: 'Discrete Batch Auctions' },
+      { slug: 'oracle-bands', title: 'Oracle Confidence Bands' },
+      { slug: 'crank-incentives', title: 'Keeper Crank Incentives' },
+    ],
+  },
+  {
+    id: 'tokenomics',
+    title: 'Tokenomics & Safety',
+    pages: [
+      { slug: 'mechanisms', title: 'Economic Mechanisms' },
+    ],
+  },
+  {
     id: 'security',
     title: 'Security',
     pages: [
@@ -52,12 +68,12 @@ export const DOC_PAGES: Record<string, DocsPage> = {
     slug: 'index',
     section: 'start-here',
     sectionTitle: 'Start Here',
-    title: 'Introduction to TwilightBook',
+    title: 'Introduction to Vigil',
     description: 'A 24/7 tokenized-equity venue on Solana switching between continuous swaps and discrete uniform-price batch auctions.',
     headings: [
       { id: 'overview', title: 'Overview', level: 2 },
       { id: 'problem', title: 'The TradFi Off-Hours Problem', level: 2 },
-      { id: 'solution', title: 'The Twilight Solution', level: 2 },
+      { id: 'solution', title: 'The Vigil Solution', level: 2 },
       { id: 'key-features', title: 'Key Features', level: 2 },
     ],
     prev: undefined,
@@ -68,7 +84,7 @@ export const DOC_PAGES: Record<string, DocsPage> = {
     section: 'start-here',
     sectionTitle: 'Start Here',
     title: 'Quick Start Guide',
-    description: 'Clone, build, test, and deploy TwilightBook on Solana localnet or devnet.',
+    description: 'Clone, build, test, and deploy Vigil on Solana localnet or devnet.',
     headings: [
       { id: 'prerequisites', title: 'Prerequisites', level: 2 },
       { id: 'clone-and-build', title: 'Clone & Build', level: 2 },
@@ -90,13 +106,13 @@ export const DOC_PAGES: Record<string, DocsPage> = {
       { id: 'account-model', title: 'Account Model & PDAs', level: 2 },
     ],
     prev: { title: 'Quick Start', href: '/docs/start-here/quick-start' },
-    next: { title: 'Continuous vs. Twilight', href: '/docs/core-concepts/continuous-vs-twilight' },
+    next: { title: 'Continuous vs. Vigil', href: '/docs/core-concepts/continuous-vs-vigil' },
   },
-  'core-concepts/continuous-vs-twilight': {
-    slug: 'continuous-vs-twilight',
+  'core-concepts/continuous-vs-vigil': {
+    slug: 'continuous-vs-vigil',
     section: 'core-concepts',
     sectionTitle: 'Core Concepts',
-    title: 'Continuous vs. Twilight Mode',
+    title: 'Continuous vs. Vigil Mode',
     description: 'Why the mode switch exists: defending against adverse selection during TradFi market closes.',
     headings: [
       { id: 'the-135-hour-window', title: 'The 135-Hour Window', level: 2 },
@@ -118,7 +134,7 @@ export const DOC_PAGES: Record<string, DocsPage> = {
       { id: 'tie-break-rule', title: 'Tie-Break Rule', level: 2 },
       { id: 'price-improvement-refund', title: 'Buyer Price-Improvement Refund', level: 2 },
     ],
-    prev: { title: 'Continuous vs. Twilight', href: '/docs/core-concepts/continuous-vs-twilight' },
+    prev: { title: 'Continuous vs. Vigil', href: '/docs/core-concepts/continuous-vs-vigil' },
     next: { title: 'Confidence Bands', href: '/docs/core-concepts/confidence-bands' },
   },
   'core-concepts/confidence-bands': {
@@ -251,6 +267,63 @@ export const DOC_PAGES: Record<string, DocsPage> = {
       { id: 'ring-buffer-capacity', title: 'Batch Buffer Capacity (32 Orders)', level: 2 },
     ],
     prev: { title: 'Invariants & Threat Model', href: '/docs/security/invariants' },
+    next: { title: 'Discrete Batch Auctions', href: '/docs/protocol/discrete-batch-auctions' },
+  },
+  'protocol/discrete-batch-auctions': {
+    slug: 'discrete-batch-auctions',
+    section: 'protocol',
+    sectionTitle: 'Protocol Mechanics',
+    title: 'Discrete Batch Auctions',
+    description: 'Dynamic epoch pooling, crossed auction matching, uniform equilibrium pricing, and 3-tier fill execution.',
+    headings: [
+      { id: 'overview', title: 'Batch Mechanism Overview', level: 2 },
+      { id: 'crossed-curve', title: 'Crossed Auction Curve (P* & Q*)', level: 2 },
+      { id: 'three-tier-fills', title: 'Three-Tier Fill Allocation', level: 2 },
+      { id: 'freeze-window', title: 'Anti-Sniping Freeze Window', level: 2 },
+    ],
+    prev: { title: 'Known Limitations', href: '/docs/security/known-limitations' },
+    next: { title: 'Oracle Confidence Bands', href: '/docs/protocol/oracle-bands' },
+  },
+  'protocol/oracle-bands': {
+    slug: 'oracle-bands',
+    section: 'protocol',
+    sectionTitle: 'Protocol Mechanics',
+    title: 'Oracle Confidence Bands',
+    description: 'Dynamic Pyth V2 price envelopes protecting traders from toxic latency arbitrage.',
+    headings: [
+      { id: 'bounds-formula', title: 'Band Formula [P_min, P_max]', level: 2 },
+      { id: 'circuit-evaluation', title: 'Live Circuit Evaluation', level: 2 },
+      { id: 'cockpit-telemetry', title: 'Cockpit Visual Telemetry', level: 2 },
+    ],
+    prev: { title: 'Discrete Batch Auctions', href: '/docs/protocol/discrete-batch-auctions' },
+    next: { title: 'Keeper Crank Incentives', href: '/docs/protocol/crank-incentives' },
+  },
+  'protocol/crank-incentives': {
+    slug: 'crank-incentives',
+    section: 'protocol',
+    sectionTitle: 'Protocol Mechanics',
+    title: 'Keeper Crank Incentives',
+    description: 'Permissionless clearing cranks, keeper bot automation, and epoch rollover execution.',
+    headings: [
+      { id: 'crank-lifecycle', title: 'Crank Lifecycle', level: 2 },
+      { id: 'keeper-automation', title: 'Autonomous Keeper Bot', level: 2 },
+      { id: 'incentive-economics', title: 'Execution Bounty Economics', level: 2 },
+    ],
+    prev: { title: 'Oracle Confidence Bands', href: '/docs/protocol/oracle-bands' },
+    next: { title: 'Economic Mechanisms', href: '/docs/tokenomics/mechanisms' },
+  },
+  'tokenomics/mechanisms': {
+    slug: 'mechanisms',
+    section: 'tokenomics',
+    sectionTitle: 'Tokenomics & Safety',
+    title: 'Economic & Safety Mechanisms',
+    description: 'Price-improvement refunds, zero-leakage vault conservation, and market fee structures.',
+    headings: [
+      { id: 'price-improvement', title: 'Price Improvement Refund (INV-11)', level: 2 },
+      { id: 'vault-conservation', title: 'Vault Solvency Auditing (INV-01 / INV-02)', level: 2 },
+      { id: 'fee-model', title: 'Protocol & Liquidity Escrow Model', level: 2 },
+    ],
+    prev: { title: 'Keeper Crank Incentives', href: '/docs/protocol/crank-incentives' },
     next: undefined,
   },
 };

@@ -94,7 +94,7 @@ export const SearchModal: React.FC<Props> = ({ isOpen, onClose }) => {
               setSelectedIndex(0);
             }}
             onKeyDown={handleKeyDown}
-            placeholder="Search TwilightBook documentation..."
+            placeholder="Search Vigil documentation..."
             className="w-full bg-transparent text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none"
           />
           <button

@@ -20,17 +20,17 @@ export const DocPageContent: React.FC<Props> = ({ page }) => {
         return (
           <div className="space-y-6 text-sm text-neutral-900/90 leading-relaxed font-sans">
             <p className="text-base text-neutral-900 leading-normal font-normal">
-              <strong>TwilightBook</strong> is an autonomous discrete uniform-price batch auction protocol on Solana for 24/7 tokenized equities. It eliminates toxic MEV and adverse selection during off-market hours by switching continuously between standard AMM trading and discrete batch auctions based on live Pyth oracle signals.
+              <strong>Vigil</strong> is an autonomous discrete uniform-price batch auction protocol on Solana for 24/7 tokenized equities. It eliminates toxic MEV and adverse selection during off-market hours by switching continuously between standard AMM trading and discrete batch auctions based on live Pyth oracle signals.
             </p>
 
             <h2 id="overview" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
-              Why TwilightBook Exists
+              Why Vigil Exists
             </h2>
             <p>
               Traditional equity markets close for roughly 135 hours each week (weekends, nights, bank holidays). When equities are tokenized on Solana, trading continues 24/7, but the underlying asset&apos;s primary price discovery halts or experiences extreme uncertainty.
             </p>
             <p>
-              If a continuous AMM pool is left open against a stale or wide-confidence oracle feed, it suffers from catastrophic adverse selection: informed arbitrageurs trade against stale liquidity pools before market makers can adjust. TwilightBook solves this by converting continuous trading into discrete batch auctions whenever market uncertainty exceeds defined thresholds.
+              If a continuous AMM pool is left open against a stale or wide-confidence oracle feed, it suffers from catastrophic adverse selection: informed arbitrageurs trade against stale liquidity pools before market makers can adjust. Vigil solves this by converting continuous trading into discrete batch auctions whenever market uncertainty exceeds defined thresholds.
             </p>
 
             <h2 id="problem" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
@@ -44,7 +44,7 @@ export const DocPageContent: React.FC<Props> = ({ page }) => {
                 </div>
               </div>
               <div className="p-4 rounded-lg bg-neutral-100 border border-neutral-200">
-                <div className="font-bold text-signal-violet mb-1">TwilightBook Discrete Batches</div>
+                <div className="font-bold text-signal-violet mb-1">Vigil Discrete Batches</div>
                 <div className="text-xs text-neutral-500">
                   Aggregates all liquidity into periodic epochs, executing all crossed trades at a single uniform equilibrium price (P*).
                 </div>
@@ -52,13 +52,13 @@ export const DocPageContent: React.FC<Props> = ({ page }) => {
             </div>
 
             <h2 id="solution" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
-              The Twilight Solution
+              The Vigil Solution
             </h2>
             <p>
               During normal hours, when Pyth reports status <code>Trading</code> and confidence is tight (e.g. ≤ 200 bps), the market operates in <strong>Continuous Mode</strong>.
             </p>
             <p>
-              When a weekend shock occurs, confidence widens beyond the threshold, the feed is halted, or publish time becomes stale, the permissionless circuit evaluator flips the venue into <strong>Twilight Batch Auction Mode</strong>.
+              When a weekend shock occurs, confidence widens beyond the threshold, the feed is halted, or publish time becomes stale, the permissionless circuit evaluator flips the venue into <strong>Vigil Batch Auction Mode</strong>.
             </p>
 
             <h2 id="key-features" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
@@ -91,7 +91,7 @@ export const DocPageContent: React.FC<Props> = ({ page }) => {
         return (
           <div className="space-y-6 text-sm text-neutral-900/90 leading-relaxed font-sans">
             <p>
-              This guide walks through cloning, building, testing, and deploying TwilightBook on Solana localnet or devnet.
+              This guide walks through cloning, building, testing, and deploying Vigil on Solana localnet or devnet.
             </p>
 
             <h2 id="prerequisites" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
@@ -109,8 +109,8 @@ export const DocPageContent: React.FC<Props> = ({ page }) => {
             </h2>
             <CodeBlock
               language="bash"
-              code={`git clone https://github.com/sadik-tofik/twilight-book.git
-cd twilight-book
+              code={`git clone https://github.com/sadik-tofik/vigil.git
+cd vigil
 
 # Install dependencies
 npm install
@@ -123,7 +123,7 @@ anchor build`}
               Running Bankrun Tests
             </h2>
             <p>
-              TwilightBook features 26 exhaustive unit and integration tests powered by <code>solana-bankrun</code> and <code>anchor-bankrun</code>, executing in under 4 seconds without spinning up a full test validator.
+              Vigil features 26 exhaustive unit and integration tests powered by <code>solana-bankrun</code> and <code>anchor-bankrun</code>, executing in under 4 seconds without spinning up a full test validator.
             </p>
             <CodeBlock
               language="bash"
@@ -152,7 +152,7 @@ anchor deploy --provider.cluster devnet`}
         return (
           <div className="space-y-6 text-sm text-neutral-900/90 leading-relaxed font-sans">
             <p>
-              The TwilightBook architecture is organized around the <strong>Pyth Circuit Evaluator</strong>, which continuously senses oracle reliability and controls the transition between continuous AMM-style execution and discrete batch auctions.
+              The Vigil architecture is organized around the <strong>Pyth Circuit Evaluator</strong>, which continuously senses oracle reliability and controls the transition between continuous AMM-style execution and discrete batch auctions.
             </p>
 
             <ArchitectureDiagram />
@@ -215,14 +215,14 @@ anchor deploy --provider.cluster devnet`}
           </div>
         );
 
-      case 'core-concepts/continuous-vs-twilight':
+      case 'core-concepts/continuous-vs-vigil':
         return (
           <div className="space-y-6 text-sm text-neutral-900/90 leading-relaxed font-sans">
             <h2 id="the-135-hour-window" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2">
               The 135-Hour Window
             </h2>
             <blockquote className="p-4 rounded-lg bg-neutral-100 border-l-2 border-signal-violet text-neutral-900 italic font-sans my-4">
-              &ldquo;Traditional markets close roughly 135 hours a week. Tokenized equities on Solana don&apos;t — but the price feed backing them does effectively &apos;close&apos; too: Pyth&apos;s confidence interval widens or the feed halts. A continuous AMM pool left running against a stale price during that window is exactly the setup for adverse selection — someone with real news trades against a price that hasn&apos;t moved. TwilightBook&apos;s <code>evaluate_market_mode</code> watches Pyth&apos;s own status and confidence width and switches the market into discrete batch auctions the moment the feed stops being trustworthy for continuous pricing, then switches back once it isn&apos;t.&rdquo;
+              &ldquo;Traditional markets close roughly 135 hours a week. Tokenized equities on Solana don&apos;t — but the price feed backing them does effectively &apos;close&apos; too: Pyth&apos;s confidence interval widens or the feed halts. A continuous AMM pool left running against a stale price during that window is exactly the setup for adverse selection — someone with real news trades against a price that hasn&apos;t moved. Vigil&apos;s <code>evaluate_market_mode</code> watches Pyth&apos;s own status and confidence width and switches the market into discrete batch auctions the moment the feed stops being trustworthy for continuous pricing, then switches back once it isn&apos;t.&rdquo;
             </blockquote>
 
             <h2 id="adverse-selection" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
@@ -283,7 +283,7 @@ anchor deploy --provider.cluster devnet`}
               Oracle Tie-Break Rule
             </h2>
             <p>
-              When candidate prices produce identical maximum matched volume, TwilightBook resolves the tie by selecting the price nearest to the Pyth oracle reference price ($P_&#123;ref&#125;$). Given $P_&#123;ref&#125; = $214.50, $214.60 has $|214.60 - 214.50| = 0.10$ vs $|214.80 - 214.50| = 0.30$, establishing:
+              When candidate prices produce identical maximum matched volume, Vigil resolves the tie by selecting the price nearest to the Pyth oracle reference price ($P_&#123;ref&#125;$). Given $P_&#123;ref&#125; = $214.50, $214.60 has $|214.60 - 214.50| = 0.10$ vs $|214.80 - 214.50| = 0.30$, establishing:
             </p>
             <div className="p-3 rounded-lg bg-signal-violet/10 border border-signal-violet/30 text-signal-violet font-mono text-sm font-bold">
               Uniform Clearing Price: P* = $214.60, Matched Volume: Q* = 10 shares
@@ -308,7 +308,7 @@ anchor deploy --provider.cluster devnet`}
               Confidence Band Bounds
             </h2>
             <p>
-              Every limit price submitted to TwilightBook must reside within the confidence envelope derived from the Pyth V2 feed:
+              Every limit price submitted to Vigil must reside within the confidence envelope derived from the Pyth V2 feed:
             </p>
             <div className="p-4 rounded-lg bg-neutral-100 border border-neutral-200 font-mono text-sm text-center my-4">
               <span className="text-signal-green">P_min = P_ref - k × σ</span>
@@ -328,7 +328,7 @@ anchor deploy --provider.cluster devnet`}
             <CodeBlock
               language="rust"
               code={`#[error_code]
-pub enum TwilightError {
+pub enum VigilError {
     #[msg("Order limit price exceeds allowable oracle confidence band")]
     OrderPriceExceedsConfidenceBand = 6003,
 }`}
@@ -339,7 +339,7 @@ pub enum TwilightError {
       case 'instructions/initialize-market':
         return (
           <div className="space-y-6 text-sm text-neutral-900/90 leading-relaxed font-sans">
-            <p className="text-base text-neutral-900">Initializes a new TwilightBook market for a base/quote token pair, creating vaults and setting circuit parameters.</p>
+            <p className="text-base text-neutral-900">Initializes a new Vigil market for a base/quote token pair, creating vaults and setting circuit parameters.</p>
 
             <h2 id="accounts" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">Accounts</h2>
             <div className="overflow-x-auto my-4">
@@ -537,7 +537,7 @@ await program.methods
         return (
           <div className="space-y-6 text-sm text-neutral-900/90 leading-relaxed font-sans">
             <p className="text-base text-neutral-900">
-              The TwilightBook security model is formally defined by 5 core protocol invariants that must hold across all transactions.
+              The Vigil security model is formally defined by 5 core protocol invariants that must hold across all transactions.
             </p>
 
             <h2 id="core-invariants" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
@@ -636,6 +636,168 @@ await program.methods
             </blockquote>
             <p>
               In production mainnet deployments, <code>market.pyth_feed</code> points directly to Pyth&apos;s real Price account. The mock oracle instruction exists solely so hackathon evaluators and demo operators can simulate market halts and weekend confidence spikes on demand.
+            </p>
+          </div>
+        );
+
+      case 'protocol/discrete-batch-auctions':
+        return (
+          <div className="space-y-6 text-sm text-neutral-900/90 leading-relaxed font-sans">
+            <h2 id="overview" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2">
+              Batch Mechanism Overview
+            </h2>
+            <p>
+              Vigil pools liquidity across 75-slot discrete epochs (~30 seconds) into a 32-slot order ring buffer (<code>EpochBatchState</code>). Instead of executing continuous trades where latency arbitrageurs extract MEV via sandwich attacks, all orders in an epoch are aggregated and executed at a single uniform clearing price (P*).
+            </p>
+
+            <h2 id="crossed-curve" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
+              Crossed Auction Curve (P* &amp; Q*)
+            </h2>
+            <p>
+              The cockpit renders the live crossed auction supply and demand curves. Aggregate demand is the cumulative volume of all bids willing to buy at price P or higher; aggregate supply is the cumulative volume of all asks willing to sell at price P or lower.
+            </p>
+            <div className="p-4 rounded-lg bg-neutral-100 border border-neutral-200 font-mono text-xs my-3 space-y-1">
+              <div>• Maximum Matched Volume: <strong className="text-signal-green">Q* = argmax_P min(Demand(P), Supply(P))</strong></div>
+              <div>• Equilibrium Clearing Price: <strong className="text-signal-violet">P* = Candidate price maximizing Q*</strong></div>
+              <div>• Oracle Tie-Break: If multiple prices yield maximum Q*, P* nearest to Pyth P_ref is chosen</div>
+            </div>
+
+            <h2 id="three-tier-fills" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
+              Three-Tier Fill Allocation
+            </h2>
+            <p>
+              When a batch settles, every placed order is partitioned into one of three execution tiers:
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 my-4">
+              <div className="p-3.5 rounded-lg bg-signal-green/10 border border-signal-green/30">
+                <div className="font-bold text-signal-green text-xs mb-1">Tier 1: In-the-Money</div>
+                <div className="text-xs text-neutral-600">Bids with limit &gt; P* and asks with limit &lt; P*. Guaranteed 100% filled.</div>
+              </div>
+              <div className="p-3.5 rounded-lg bg-signal-amber/10 border border-signal-amber/30">
+                <div className="font-bold text-signal-amber text-xs mb-1">Tier 2: At-the-Money</div>
+                <div className="text-xs text-neutral-600">Bids and asks with limit == P*. Filled pro-rata based on remaining matched capacity.</div>
+              </div>
+              <div className="p-3.5 rounded-lg bg-neutral-100 border border-neutral-200">
+                <div className="font-bold text-neutral-500 text-xs mb-1">Tier 3: Out-of-the-Money</div>
+                <div className="text-xs text-neutral-600">Bids &lt; P* and asks &gt; P*. 0% filled; 100% of escrowed principal refunded.</div>
+              </div>
+            </div>
+
+            <h2 id="freeze-window" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
+              Anti-Sniping Freeze Window
+            </h2>
+            <p>
+              To prevent last-moment order cancellation attacks (where traders observe competitor orders and pull liquidity in the final slot), Vigil enforces a strict <strong>10-slot cancellation freeze window</strong> before epoch settlement. Any cancellation attempt within 10 slots of epoch end is rejected on-chain.
+            </p>
+          </div>
+        );
+
+      case 'protocol/oracle-bands':
+        return (
+          <div className="space-y-6 text-sm text-neutral-900/90 leading-relaxed font-sans">
+            <h2 id="bounds-formula" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2">
+              Band Formula [P_min, P_max]
+            </h2>
+            <p>
+              All limit orders placed into Vigil must fall strictly within the dynamic Pyth confidence envelope:
+            </p>
+            <div className="p-4 rounded-lg bg-neutral-100 border border-neutral-200 font-mono text-center text-sm my-4">
+              <span className="text-signal-green font-bold">P_min = P_ref - k × σ</span>
+              <span className="text-neutral-400 mx-4">·</span>
+              <span className="text-signal-violet font-bold">P_max = P_ref + k × σ</span>
+            </div>
+            <p>
+              Where <code>k = market.conf_filter_mult</code> (default 2) and <code>σ</code> is Pyth&apos;s published confidence interval. Any order attempting to bid or offer outside this band is blocked immediately.
+            </p>
+
+            <h2 id="circuit-evaluation" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
+              Live Circuit Evaluation
+            </h2>
+            <p>
+              The permissionless <code>evaluate_market_mode</code> instruction evaluates three critical parameters directly from Pyth&apos;s byte layout:
+            </p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li><strong>Feed Status:</strong> Must equal <code>Trading</code> (1). If <code>Halted</code> or <code>Auction</code>, the batch circuit trips immediately.</li>
+              <li><strong>Confidence Spread (BPS):</strong> Checks <code>(conf * 10,000) / price ≤ max_conf_bps</code> (default 200 bps = 2.00%).</li>
+              <li><strong>Timestamp Staleness:</strong> Asserts <code>clock.unix_timestamp - publish_time ≤ 60 seconds</code>.</li>
+            </ul>
+
+            <h2 id="cockpit-telemetry" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
+              Cockpit Visual Telemetry
+            </h2>
+            <p>
+              In the trading cockpit, the live Oracle Uncertainty panel streams real-time status, confidence bps, and staleness metrics. The Crossed Auction Curve visualizes the band as a shaded blue region, clearly showing where liquidity is authorized to clear.
+            </p>
+          </div>
+        );
+
+      case 'protocol/crank-incentives':
+        return (
+          <div className="space-y-6 text-sm text-neutral-900/90 leading-relaxed font-sans">
+            <h2 id="crank-lifecycle" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2">
+              Crank Lifecycle
+            </h2>
+            <p>
+              Solana does not support native timer interrupts. Discrete batch auctions require an external transaction to trigger the epoch transition once the duration has elapsed. This is accomplished via the permissionless <code>settle_batch_auction</code> instruction.
+            </p>
+
+            <h2 id="keeper-automation" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
+              Autonomous Keeper Bot
+            </h2>
+            <p>
+              Vigil provides a dedicated automated keeper service (located in <code>keeper/index.ts</code>) that runs 24/7:
+            </p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Listens to on-chain slot updates via WebSocket subscriptions.</li>
+              <li>Detects when the active epoch exceeds <code>end_slot</code>.</li>
+              <li>Simulates clearing off-chain using the exact mathematical specification.</li>
+              <li>Submits the settlement instruction to finalize P* and Q* on-chain.</li>
+            </ul>
+
+            <h2 id="incentive-economics" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
+              Execution Bounty Economics
+            </h2>
+            <p>
+              Cranking requires paying Solana compute unit fees and priority fees. Keepers receive execution incentives from protocol fees to compensate for RPC and transaction costs, guaranteeing continuous autonomous clearing even during extreme network congestion.
+            </p>
+          </div>
+        );
+
+      case 'tokenomics/mechanisms':
+        return (
+          <div className="space-y-6 text-sm text-neutral-900/90 leading-relaxed font-sans">
+            <h2 id="price-improvement" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2">
+              Price Improvement Refund (INV-11)
+            </h2>
+            <p>
+              In continuous limit order books, crossing the spread forfeits any price improvement to the market maker. In Vigil, uniform price clearing ensures all buyers and sellers clear at P*. If a buyer bid $214.80 and the clearing price settles at $214.60, the buyer receives:
+            </p>
+            <div className="p-3.5 rounded-lg bg-signal-green/10 border border-signal-green/30 text-signal-green font-mono text-xs my-3">
+              Refund = (Limit_Price - P*) × Filled_Quantity = ($214.80 - $214.60) × 10 = $2.00 USDC
+            </div>
+            <p>
+              This surplus is credited back to the buyer automatically when calling <code>claim_order_proceeds</code>.
+            </p>
+
+            <h2 id="vault-conservation" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
+              Vault Solvency Auditing (INV-01 / INV-02)
+            </h2>
+            <p>
+              Vigil maintains mathematical conservation across both token vaults:
+            </p>
+            <ul className="list-disc pl-5 space-y-1 font-mono text-xs">
+              <li><strong>INV-01 (Base Vault):</strong> Vault Base Balance == Sum of escrowed ask lots + unclaimed filled base proceeds</li>
+              <li><strong>INV-02 (Quote Vault):</strong> Vault Quote Balance == Sum of escrowed bid deposits + unclaimed sale proceeds + surplus refunds</li>
+            </ul>
+            <p className="mt-2">
+              The live cockpit features an automated <strong>Vault Solvency Audit</strong> panel that recalculates these invariants against every on-chain order, displaying real-time zero-leakage cryptographic proof.
+            </p>
+
+            <h2 id="fee-model" className="text-xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mt-8">
+              Protocol &amp; Liquidity Escrow Model
+            </h2>
+            <p>
+              Orders that do not execute (unfilled Tier 3 orders or orders cancelled before the freeze window) incur zero fees. Only executed volume contributes to protocol reserves and keeper incentives, ensuring zero friction for liquidity providers.
             </p>
           </div>
         );

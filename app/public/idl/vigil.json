@@ -1,7 +1,7 @@
 {
-  "address": "HBVEPbKCUemrSTwPQegnKHhA9JfuWJ82DDG8r6VfeQ4h",
+  "address": "J67mmCdpb4NiMRPEF59JupqHpo3BLbk5Cr82qvGff8iX",
   "metadata": {
-    "name": "twilight_book",
+    "name": "vigil",
     "version": "0.1.0",
     "spec": "0.1.0",
     "description": "Discrete batch-auction protocol for tokenized equities during TradFi off-hours"
@@ -327,6 +327,27 @@
           ]
         },
         {
+          "name": "registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
           "name": "token_program"
         },
         {
@@ -350,6 +371,179 @@
         {
           "name": "conf_filter_mult",
           "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initialize_market_with_asset_class",
+      "discriminator": [
+        80,
+        98,
+        46,
+        165,
+        141,
+        65,
+        33,
+        224
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "market",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "base_mint"
+              },
+              {
+                "kind": "account",
+                "path": "quote_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "base_mint"
+        },
+        {
+          "name": "quote_mint"
+        },
+        {
+          "name": "vault_base",
+          "docs": [
+            "`#[account(init, ...)]` — see module doc comment above for why.",
+            "`seeds`/`bump` still gets Anchor to validate this is the canonical",
+            "PDA before the handler runs."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  98,
+                  97,
+                  115,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_quote",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  113,
+                  117,
+                  111,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pyth_feed",
+          "docs": [
+            "PriceFeed deserialization (Sprint 2), not by Anchor's account macro."
+          ]
+        },
+        {
+          "name": "registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "max_conf_bps",
+          "type": "u64"
+        },
+        {
+          "name": "epoch_duration_slots",
+          "type": "u64"
+        },
+        {
+          "name": "conf_filter_mult",
+          "type": "u64"
+        },
+        {
+          "name": "asset_class",
+          "type": {
+            "defined": {
+              "name": "AssetClass"
+            }
+          }
         }
       ]
     },
@@ -643,6 +837,19 @@
         198,
         154
       ]
+    },
+    {
+      "name": "Registry",
+      "discriminator": [
+        47,
+        174,
+        110,
+        246,
+        184,
+        182,
+        252,
+        218
+      ]
     }
   ],
   "errors": [
@@ -723,6 +930,26 @@
     }
   ],
   "types": [
+    {
+      "name": "AssetClass",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "TokenizedEquity"
+          },
+          {
+            "name": "RWA"
+          },
+          {
+            "name": "EmergingMarketFX"
+          },
+          {
+            "name": "EventContingent"
+          }
+        ]
+      }
+    },
     {
       "name": "BatchOrder",
       "type": {
@@ -902,6 +1129,14 @@
             "type": "u64"
           },
           {
+            "name": "asset_class",
+            "type": {
+              "defined": {
+                "name": "AssetClass"
+              }
+            }
+          },
+          {
             "name": "bump",
             "type": "u8"
           }
@@ -932,6 +1167,24 @@
           },
           {
             "name": "Ask"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Registry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "markets",
+            "type": {
+              "vec": "pubkey"
+            }
           }
         ]
       }

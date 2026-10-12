@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.*
+
+# Testing & Coverage
+coverage/
+.nyc_output/
+
+# Rust / Anchor build artifacts
+target/
+.anchor/
+
+# Next.js & App build artifacts
+.next/
+out/
+build/
+.vercel/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Logs & temp test outputs
+*.log
+task-*.log
+grep_tests_bankrun.txt
+*.mp4
+*.webm
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Environment files
+.env.local
+.env.*.local

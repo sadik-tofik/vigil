@@ -90,7 +90,7 @@ export const INITIAL_BATCH: EpochBatchState = {
   orders: INITIAL_ORDERS,
 };
 
-// Pure solver function implementing uniform price clearing matching programs/twilight-book/src/math/clearing.rs
+// Pure solver function implementing uniform price clearing matching programs/vigil/src/math/clearing.rs
 export function solveUniformPrice(
   orders: BatchOrder[],
   pRef: number

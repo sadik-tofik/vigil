@@ -1,12 +1,12 @@
 [package]
-name = "twilight-book"
+name = "vigil"
 version = "0.1.0"
 description = "Discrete batch-auction protocol for tokenized equities during TradFi off-hours"
 edition = "2021"
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "twilight_book"
+name = "vigil"
 
 [features]
 no-entrypoint = []

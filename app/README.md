@@ -1,6 +1,6 @@
-# TwilightBook — Cockpit & Developer Documentation
+# Vigil — Cockpit & Developer Documentation
 
-The official Next.js web application for **TwilightBook**, providing a real-time trading cockpit and developer documentation site for Solana's 24/7 tokenized-equity discrete batch auction venue.
+The official Next.js web application for **Vigil**, providing a real-time trading cockpit and developer documentation site for Solana's 24/7 tokenized-equity discrete batch auction venue.
 
 ## Overview
 

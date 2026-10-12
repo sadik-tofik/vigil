@@ -26,13 +26,13 @@
   --color-text-primary: var(--neutral-900);
   --color-text-muted: var(--neutral-500);
   --color-accent-continuous: var(--signal-green);
-  --color-accent-twilight: var(--signal-violet);
+  --color-accent-vigil: var(--signal-violet);
   --color-accent-danger: var(--signal-red);
   --color-accent-neutral: var(--signal-amber);
 
-  --font-sans: var(--font-plex-sans), -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-mono: var(--font-plex-mono), "SF Mono", Consolas, monospace;
-  --font-martian: var(--font-martian-mono), monospace;
+  --font-sans: var(--font-space-grotesk), -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "SF Mono", Consolas, monospace;
+  --font-martian: var(--font-jetbrains-mono), monospace;
 
   --text-display: 4rem;
   --text-display--line-height: 4.25rem;
@@ -41,22 +41,23 @@
 }
 
 :root, [data-theme="dark"] {
-  --neutral-50: #0D0C0A;
-  --neutral-100: #17140F;
-  --neutral-150: #1F1B15;
-  --neutral-200: #2B2620;
-  --neutral-300: #3A332B;
-  --neutral-400: #5C5347;
-  --neutral-500: #9C9186;
-  --neutral-900: #F2EFEA;
+  --neutral-50: #08090C;
+  --neutral-100: #0E1117;
+  --neutral-150: #161922;
+  --neutral-200: #1F2430;
+  --neutral-300: #2E3444;
+  --neutral-400: #4B5563;
+  --neutral-500: #9CA3AF;
+  --neutral-900: #F3F4F6;
 
-  --signal-green: #3ECF8E;
-  --signal-violet: #B98CE8;
-  --signal-amber: #D9A441;
-  --signal-red: #E5544D;
+  --signal-green: #10B981;
+  --signal-violet: #8B5CF6;
+  --signal-amber: #F59E0B;
+  --signal-red: #EF4444;
+  --signal-cyan: #06B6D4;
 
-  --solana-echo-start: #6B4FE0;
-  --solana-echo-end: #2DBF8C;
+  --solana-echo-start: #8B5CF6;
+  --solana-echo-end: #10B981;
 
   color-scheme: dark;
 }

@@ -7,20 +7,42 @@ pub mod math;
 
 use instructions::*;
 
-declare_id!("HBVEPbKCUemrSTwPQegnKHhA9JfuWJ82DDG8r6VfeQ4h");
+declare_id!("J67mmCdpb4NiMRPEF59JupqHpo3BLbk5Cr82qvGff8iX");
 
 #[program]
 pub mod twilight_book {
     use super::*;
 
-    // ---- Sprint 1 ----
+    // ---- Sprint 1: Permissionless Market Creation ----
     pub fn initialize_market(
         ctx: Context<InitializeMarket>,
         max_conf_bps: u64,
         epoch_duration_slots: u64,
         conf_filter_mult: u64,
     ) -> Result<()> {
-        instructions::initialize::handler(ctx, max_conf_bps, epoch_duration_slots, conf_filter_mult)
+        instructions::initialize::handler(
+            ctx,
+            max_conf_bps,
+            epoch_duration_slots,
+            conf_filter_mult,
+            state::market::AssetClass::TokenizedEquity,
+        )
+    }
+
+    pub fn initialize_market_with_asset_class(
+        ctx: Context<InitializeMarket>,
+        max_conf_bps: u64,
+        epoch_duration_slots: u64,
+        conf_filter_mult: u64,
+        asset_class: state::market::AssetClass,
+    ) -> Result<()> {
+        instructions::initialize::handler(
+            ctx,
+            max_conf_bps,
+            epoch_duration_slots,
+            conf_filter_mult,
+            asset_class,
+        )
     }
 
     // ---- Sprint 2 ----
@@ -64,4 +86,3 @@ pub mod twilight_book {
         instructions::mock_oracle::handler(ctx, price, conf, expo, status, publish_time)
     }
 }
-

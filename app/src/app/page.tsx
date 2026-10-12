@@ -112,11 +112,11 @@ export default function MarketingPage() {
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2.5 group">
               <div className="w-8 h-8 rounded-lg bg-neutral-100 border border-neutral-200 flex items-center justify-center font-bold text-neutral-900 text-xs tracking-wider">
-                TB
+                VG
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-bold text-base text-neutral-900 tracking-tight group-hover:text-signal-amber transition-colors">
-                  TwilightBook
+                  Vigil
                 </span>
                 <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-mono font-medium bg-neutral-150 border border-neutral-200 text-neutral-500">
                   SOLANA
@@ -174,7 +174,7 @@ export default function MarketingPage() {
           <div className="inline-flex flex-col items-center mb-8">
             <div className="px-3.5 py-1 rounded-full bg-neutral-100 border border-neutral-200 text-xs font-mono text-neutral-500 mb-1.5 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-signal-green" />
-              <span>Built for the Stocklana Hackathon</span>
+              <span>Colosseum Crypto World&apos;s Fair · Solana Devnet</span>
             </div>
             {/* 2px Gradient Rule */}
             <div
@@ -192,7 +192,7 @@ export default function MarketingPage() {
 
           {/* Plain Mechanism Subtitle */}
           <p className="text-lg sm:text-xl text-neutral-500 max-w-[760px] mb-10 leading-relaxed font-normal">
-            TwilightBook replaces vulnerable continuous AMMs with discrete, Pyth-anchored batch auctions
+            Vigil replaces vulnerable continuous AMMs with discrete, Pyth-anchored batch auctions
             the instant off-hours volatility or market halts occur on-chain.
           </p>
 
@@ -267,7 +267,7 @@ export default function MarketingPage() {
                     : 'bg-neutral-100 border border-neutral-200 text-neutral-500 hover:text-neutral-900'
                 }`}
               >
-                2. Twilight Mode (Weekend / Shock)
+                2. Vigil Mode (Weekend / Shock)
               </button>
             </div>
 
@@ -281,7 +281,7 @@ export default function MarketingPage() {
               />
             </div>
 
-            {/* Explanatory Content from docs/core-concepts/continuous-vs-twilight.mdx */}
+            {/* Explanatory Content from docs/core-concepts/continuous-vs-vigil.mdx */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-neutral-200">
               <div
                 className={`p-5 rounded-lg border transition-all ${
@@ -310,12 +310,12 @@ export default function MarketingPage() {
               >
                 <div className="flex items-center gap-2 mb-2 font-mono text-xs font-bold text-signal-violet">
                   <span className="w-2 h-2 rounded-full bg-signal-violet" />
-                  <span>TWILIGHT BATCH AUCTION</span>
+                  <span>VIGIL BATCH AUCTION</span>
                 </div>
                 <h3 className="font-bold text-base text-neutral-900 mb-2">Discrete Protective Shield</h3>
                 <p className="text-sm text-neutral-500 leading-relaxed">
                   Traditional markets close ~135 hours a week. When confidence blows out or a stock halts,
-                  continuous order books suffer toxic flow. TwilightBook trips into batch auctions: eliminating
+                  continuous order books suffer toxic flow. Vigil trips into batch auctions: eliminating
                   latency arbitrage and clearing all orders at one uniform equilibrium price.
                 </p>
               </div>
@@ -449,7 +449,7 @@ export default function MarketingPage() {
               SEQUENTIAL LIFECYCLE
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 tracking-[-0.01em]">
-              How TwilightBook protects a trade
+              How Vigil protects a trade
             </h2>
           </div>
 
@@ -487,7 +487,7 @@ export default function MarketingPage() {
                 <h3 className="text-xl font-bold text-neutral-900 mb-2">Market adapts</h3>
                 <p className="text-sm text-neutral-500 leading-relaxed">
                   When Pyth confidence expands beyond 200 bps or a traditional market halt is detected,
-                  TwilightBook&apos;s permissionless circuit immediately halts continuous execution. A discrete
+                  Vigil&apos;s permissionless circuit immediately halts continuous execution. A discrete
                   batch auction opens, and an anti-sniping freeze window activates in the final slots.
                 </p>
               </div>
@@ -582,7 +582,7 @@ export default function MarketingPage() {
 
             <div className="mt-6 flex items-center gap-4">
               <a
-                href="https://github.com/sadik-tofik/twilight-book/blob/main/AUDIT.md"
+                href="https://github.com/sadik-tofik/vigil/blob/main/AUDIT.md"
                 target="_blank"
                 rel="noreferrer"
                 className="text-xs font-mono font-bold text-signal-amber hover:underline flex items-center gap-1"
@@ -608,7 +608,7 @@ export default function MarketingPage() {
       <section className="py-20 px-6 border-t border-neutral-200 bg-neutral-100 transition-colors">
         <div className="max-w-[720px] mx-auto text-left gsap-reveal">
           <h2 className="text-xl font-bold text-neutral-900 mb-6 tracking-tight">
-            Build and verify alongside TwilightBook
+            Build and verify alongside Vigil
           </h2>
 
           <div className="divide-y divide-neutral-200 border-y border-neutral-200">
@@ -626,7 +626,7 @@ export default function MarketingPage() {
             </Link>
 
             <a
-              href="https://github.com/sadik-tofik/twilight-book"
+              href="https://github.com/sadik-tofik/vigil"
               target="_blank"
               rel="noreferrer"
               className="py-4 flex items-center justify-between text-sm text-neutral-900 hover:text-signal-amber transition-colors group"
@@ -678,7 +678,7 @@ export default function MarketingPage() {
         <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="font-bold text-base text-neutral-900 tracking-tight">TwilightBook</span>
+              <span className="font-bold text-base text-neutral-900 tracking-tight">Vigil</span>
               <span className="text-xs text-neutral-400 font-mono">v1.0.0-devnet</span>
             </div>
             <p className="text-xs text-neutral-500 max-w-sm">
@@ -694,7 +694,7 @@ export default function MarketingPage() {
               Docs
             </Link>
             <a
-              href="https://github.com/sadik-tofik/twilight-book/blob/main/EVIDENCE.md"
+              href="https://github.com/sadik-tofik/vigil/blob/main/EVIDENCE.md"
               target="_blank"
               rel="noreferrer"
               className="hover:text-neutral-900 transition-colors"
@@ -702,7 +702,7 @@ export default function MarketingPage() {
               Evidence
             </a>
             <a
-              href="https://github.com/sadik-tofik/twilight-book/blob/main/AUDIT.md"
+              href="https://github.com/sadik-tofik/vigil/blob/main/AUDIT.md"
               target="_blank"
               rel="noreferrer"
               className="hover:text-neutral-900 transition-colors"
@@ -710,7 +710,7 @@ export default function MarketingPage() {
               Audit
             </a>
             <a
-              href="https://github.com/sadik-tofik/twilight-book"
+              href="https://github.com/sadik-tofik/vigil"
               target="_blank"
               rel="noreferrer"
               className="hover:text-neutral-900 transition-colors"

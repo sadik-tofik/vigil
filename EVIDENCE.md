@@ -51,11 +51,11 @@ TwilightBook's architecture is governed by 15 strict protocol invariants. All 15
 
 | Invariant | Description | Verification Method | Status |
 | :--- | :--- | :--- | :---: |
-| **INV-01** | **Base Vault Zero-Leakage**: Vault balance exactly equals active escrows + unclaimed filled base tokens. | `zero_leakage.test.ts`, `e2e_verify.ts` | **PROVEN** |
+| **INV-01** | **Base Vault Zero-Leakage & Order-Splitting Invariance**: Vault balance conservation post-claim; splitting orders at tie price cannot increase fill share ($\sum \text{fill}_i \le \text{fill}_{\text{single}}$). | `zero_leakage.test.ts`, `order_splitting_invariant.test.ts`, `e2e_verify.ts` | **PROVEN** |
 | **INV-02** | **Quote Vault Zero-Leakage**: Vault balance exactly equals active escrows + unclaimed seller proceeds + buyer surplus. | `zero_leakage.test.ts`, `e2e_verify.ts` | **PROVEN** |
 | **INV-03** | **Monotonic Epoch Rollover**: Epoch IDs increment strictly monotonically ($E_{n+1} = E_n + 1$) upon settlement. | `uniform_clearing.test.ts` | **PROVEN** |
 | **INV-04** | **Oracle Freshness Requirement**: Feeds older than 60s are rejected on order placement with `TwilightError::StaleOracle`. | `ivm_extended.test.ts` | **PROVEN** |
-| **INV-05** | **Dynamic Confidence Envelope**: Limits outside $[P_{\text{ref}} - k\sigma, P_{\text{ref}} + k\sigma]$ are rejected with `OrderPriceExceedsConfidenceBand`. | `place_batch_order.test.ts` | **PROVEN** |
+| **INV-05** | **Dynamic Confidence Envelope & Exact Boundaries**: Limits outside $[P_{\text{ref}} - k\sigma, P_{\text{ref}} + k\sigma]$ are rejected with `OrderPriceExceedsConfidenceBand`; exact boundaries $P_{\min}, P_{\max}$ accepted, $P_{\min}-1, P_{\max}+1$ rejected. | `confidence_band_boundary.test.ts`, `place_batch_order.test.ts` | **PROVEN** |
 | **INV-06** | **Anti-Sniping Freeze Window**: Placement and cancellation are rejected inside the terminal freeze window (`BatchFrozen`). | `place_batch_order.test.ts` | **PROVEN** |
 | **INV-07** | **Matched Volume Maximization**: Clearing engine chooses price $P^*$ that maximizes $Q^*(P) = \min(D(P), S(P))$. | `uniform_clearing.test.ts` | **PROVEN** |
 | **INV-08** | **Uniform Clearing Fairness**: All executed orders clear at identical price $P^*$, regardless of submitted limit price. | `uniform_clearing.test.ts`, `e2e_verify.ts` | **PROVEN** |

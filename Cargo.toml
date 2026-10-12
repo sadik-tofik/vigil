@@ -1,5 +1,5 @@
 [workspace]
-members = ["programs/twilight-book"]
+members = ["programs/vigil"]
 resolver = "2"
 
 [profile.release]

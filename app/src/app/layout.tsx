@@ -1,34 +1,27 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, IBM_Plex_Mono, Martian_Mono } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SolanaWalletProvider } from "@/components/SolanaWalletProvider";
 import { Analytics } from "@vercel/analytics/next";
 
-const plexSans = IBM_Plex_Sans({
-  variable: "--font-plex-sans",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-});
-
-const martianMono = Martian_Mono({
-  variable: "--font-martian-mono",
-  subsets: ["latin"],
-  weight: ["700"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "TwilightBook — Tokenized Equities That Trade 24/7 on Solana",
+  title: "Vigil — Discrete Uniform-Price Batch Auction on Solana",
   description:
-    "Discrete uniform-price batch auction protocol on Solana. When Pyth confidence widens or markets halt, TwilightBook protects tokenized RWAs from toxic MEV.",
+    "Eliminating toxic MEV and off-hours adverse selection for Tokenized Equities and Real-World Assets through Pyth-anchored uniform-price batch auctions.",
 };
 
 export default function RootLayout({
@@ -41,21 +34,25 @@ export default function RootLayout({
       lang="en"
       data-theme="dark"
       suppressHydrationWarning
-      className={`${plexSans.variable} ${plexMono.variable} ${martianMono.variable} h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              try {
-                const theme = localStorage.getItem('twilight_theme') || 'dark';
-                document.documentElement.setAttribute('data-theme', theme);
-              } catch (e) {}
+              (function() {
+                try {
+                  var saved = localStorage.getItem('vigil_theme');
+                  var systemLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+                  var theme = saved || (systemLight ? 'light' : 'dark');
+                  document.documentElement.setAttribute('data-theme', theme);
+                } catch(e) {}
+              })();
             `,
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col font-sans bg-neutral-50 text-neutral-900">
+      <body className="min-h-full flex flex-col font-sans bg-neutral-50 text-neutral-900 selection:bg-signal-amber/20 selection:text-signal-amber transition-colors duration-150">
         <SolanaWalletProvider>{children}</SolanaWalletProvider>
         <Analytics />
       </body>

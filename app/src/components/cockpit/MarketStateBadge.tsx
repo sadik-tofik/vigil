@@ -44,7 +44,7 @@ export const MarketStateBadge: React.FC<Props> = ({
           <Moon size={size === 'large' ? 18 : 15} weight="fill" />
         )}
         <span className={`font-semibold tracking-wider uppercase ${size === 'large' ? 'text-sm' : 'text-xs'}`}>
-          {isContinuous ? 'Continuous Trading (CLMM)' : 'Twilight Batch Auction'}
+          {isContinuous ? 'Continuous Trading (CLMM)' : 'Vigil Batch Auction'}
         </span>
       </div>
 

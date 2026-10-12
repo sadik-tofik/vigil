@@ -17,8 +17,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const RPC_URL = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || 'https://api.devnet.solana.com';
-const BASE_MINT = new PublicKey('4iYXDWaHC5A1B5ymiLmqAyPt5K2miKS2yBaqHr98p9Am'); // tTSLA
-const QUOTE_MINT = new PublicKey('Ba7J5A5jCViRSKk1UPfZZthz3sEBdEQBydh4a6ibJjA'); // test USDC
+const BASE_MINT = new PublicKey('JAcEywGDvp52EUTsco5wJsHtBpHqKKUMwRyC6VZjok9V'); // tTSLA (Market 1)
+const QUOTE_MINT = new PublicKey('3f7cLcJJ1G5DYLGBJELGUt8Dx2vgDSSThnGdZyVn1PoJ'); // devnet USDC (Market 1)
 
 function getAuthorityKeypair(): Keypair | null {
   try {
@@ -26,9 +26,10 @@ function getAuthorityKeypair(): Keypair | null {
       const raw = JSON.parse(process.env.SOLANA_KEYPAIR_JSON);
       return Keypair.fromSecretKey(new Uint8Array(raw));
     }
-    const keyPath = process.env.SOLANA_KEYPAIR_PATH || '/home/sadik/.config/solana/id.json';
-    if (fs.existsSync(keyPath)) {
-      const raw = JSON.parse(fs.readFileSync(keyPath, 'utf-8'));
+    const home = process.env.HOME || '/home/sadik';
+    const keyPath = process.env.SOLANA_KEYPAIR_PATH || path.join(home, '.config/solana/id.json');
+    if (fs.existsSync(/*turbopackIgnore: true*/ keyPath)) {
+      const raw = JSON.parse(fs.readFileSync(/*turbopackIgnore: true*/ keyPath, 'utf-8'));
       return Keypair.fromSecretKey(new Uint8Array(raw));
     }
   } catch (err) {
@@ -40,7 +41,10 @@ function getAuthorityKeypair(): Keypair | null {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { recipient } = body;
+    const { recipient, baseMint: customBase, quoteMint: customQuote } = body;
+
+    const baseMint = customBase ? new PublicKey(customBase) : BASE_MINT;
+    const quoteMint = customQuote ? new PublicKey(customQuote) : QUOTE_MINT;
 
     if (!recipient) {
       return NextResponse.json({ error: 'Recipient public key is required' }, { status: 400 });
@@ -74,16 +78,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 2. Ensure Associated Token Accounts exist for tTSLA (base) and USDC (quote)
-    const userBaseAta = getAssociatedTokenAddressSync(BASE_MINT, recipientPubkey);
-    const userQuoteAta = getAssociatedTokenAddressSync(QUOTE_MINT, recipientPubkey);
+    // 2. Ensure Associated Token Accounts exist for base and quote
+    const userBaseAta = getAssociatedTokenAddressSync(baseMint, recipientPubkey);
+    const userQuoteAta = getAssociatedTokenAddressSync(quoteMint, recipientPubkey);
 
     tx.add(
       createAssociatedTokenAccountIdempotentInstruction(
         payer.publicKey,
         userBaseAta,
         recipientPubkey,
-        BASE_MINT
+        baseMint
       )
     );
 
@@ -92,16 +96,14 @@ export async function POST(req: NextRequest) {
         payer.publicKey,
         userQuoteAta,
         recipientPubkey,
-        QUOTE_MINT
+        quoteMint
       )
     );
 
-    // 3. Mint 10,000 USDC (quote) and 100 tTSLA (base)
-    // 6 decimals: 10,000 USDC = 10_000_000_000
-    // 6 decimals: 100 tTSLA = 100_000_000
+    // 3. Mint 10,000 quote tokens and 100 base tokens
     tx.add(
       createMintToInstruction(
-        QUOTE_MINT,
+        quoteMint,
         userQuoteAta,
         payer.publicKey,
         10_000_000_000
@@ -110,7 +112,7 @@ export async function POST(req: NextRequest) {
 
     tx.add(
       createMintToInstruction(
-        BASE_MINT,
+        baseMint,
         userBaseAta,
         payer.publicKey,
         100_000_000

@@ -105,15 +105,7 @@ fn main() {
         consider_rustc_bootstrap = true;
     }
 
-    if proc_macro_span || !semver_exempt {
-        // Wrap types from libproc_macro rather than polyfilling the whole API.
-        // Enabled as long as procmacro2_semver_exempt is not set, because we
-        // can't emulate the unstable API without emulating everything else.
-        // Also enabled unconditionally on nightly, in which case the
-        // procmacro2_semver_exempt surface area is implemented by using the
-        // nightly-only proc_macro API.
-        println!("cargo:rustc-cfg=wrap_proc_macro");
-    }
+    println!("cargo:rustc-cfg=wrap_proc_macro");
 
     if proc_macro_span {
         // Enable non-dummy behavior of Span::start and Span::end methods which
@@ -123,7 +115,7 @@ fn main() {
         println!("cargo:rustc-cfg=proc_macro_span");
     }
 
-    if semver_exempt && proc_macro_span {
+    if semver_exempt {
         // Implement the semver exempt API in terms of the nightly-only
         // proc_macro API.
         println!("cargo:rustc-cfg=super_unstable");

@@ -25,6 +25,10 @@ export const OrderForm: React.FC<Props> = ({
   const [placedFeedback, setPlacedFeedback] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  React.useEffect(() => {
+    setPriceInput(oracle.price.toFixed(2));
+  }, [oracle.price]);
+
   const isBatchMode = mode === 'batchAuction';
   const lotSizeNum = parseFloat(lotSizeInput) || 0;
   const priceNum = parseFloat(priceInput) || 0;
@@ -38,7 +42,7 @@ export const OrderForm: React.FC<Props> = ({
     setErrorMsg(null);
 
     if (!isBatchMode) {
-      setErrorMsg('Continuous mode active. Batch orders are only permitted in Twilight Batch Auction mode.');
+      setErrorMsg('Continuous mode active. Batch orders are only permitted in Vigil Batch Auction mode.');
       return;
     }
 
@@ -67,13 +71,13 @@ export const OrderForm: React.FC<Props> = ({
   };
 
   return (
-    <div className="bg-neutral-100 border border-neutral-200 rounded-lg p-5 flex flex-col justify-between">
+    <div className="bg-neutral-100 border border-neutral-200 rounded-xl p-4 sm:p-5 flex flex-col justify-between shadow-xl transition-colors">
       <div>
         <div className="flex items-center justify-between border-b border-neutral-200 pb-3 mb-4">
-          <span className="text-xs uppercase tracking-[0.06em] text-neutral-500 font-semibold">
-            SUBMIT LIMIT ORDER
+          <span className="text-xs uppercase tracking-[0.06em] text-neutral-500 font-bold font-sans">
+            SUBMIT BATCH LIMIT ORDER
           </span>
-          <span className="text-[11px] font-mono text-neutral-500">
+          <span className="text-[11px] font-mono text-signal-cyan bg-signal-cyan/10 px-2 py-0.5 rounded border border-signal-cyan/30 font-bold">
             Escrowed Vault CPI
           </span>
         </div>
@@ -83,9 +87,9 @@ export const OrderForm: React.FC<Props> = ({
           <button
             type="button"
             onClick={() => setSide('bid')}
-            className={`flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+            className={`flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer font-mono ${
               side === 'bid'
-                ? 'bg-signal-green text-neutral-50'
+                ? 'bg-signal-green text-neutral-50 shadow-sm'
                 : 'text-neutral-500 hover:text-neutral-900'
             }`}
           >
@@ -94,9 +98,9 @@ export const OrderForm: React.FC<Props> = ({
           <button
             type="button"
             onClick={() => setSide('ask')}
-            className={`flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+            className={`flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer font-mono ${
               side === 'ask'
-                ? 'bg-signal-red text-neutral-50'
+                ? 'bg-signal-red text-neutral-50 shadow-sm'
                 : 'text-neutral-500 hover:text-neutral-900'
             }`}
           >
@@ -108,8 +112,8 @@ export const OrderForm: React.FC<Props> = ({
           {/* Lot Size Input */}
           <div>
             <div className="flex justify-between text-xs text-neutral-500 mb-1 font-mono">
-              <span>Lot Size (Shares)</span>
-              <span>Units: {baseSymbol}</span>
+              <span>Lot Size (Base Lots)</span>
+              <span>Asset: {baseSymbol}</span>
             </div>
             <div className="relative">
               <input
@@ -118,10 +122,10 @@ export const OrderForm: React.FC<Props> = ({
                 min="1"
                 value={lotSizeInput}
                 onChange={(e) => setLotSizeInput(e.target.value)}
-                className="w-full h-10 px-3 py-2 bg-neutral-50 border border-neutral-200 rounded-lg text-neutral-900 font-mono text-sm focus:outline-none focus:border-signal-amber focus:ring-2 focus:ring-signal-amber/20"
+                className="w-full h-10 px-3 py-2 bg-neutral-50 border border-neutral-200 rounded-lg text-neutral-900 font-mono text-sm focus:outline-none focus:border-signal-amber focus:ring-1 focus:ring-signal-amber/20"
                 placeholder="10"
               />
-              <span className="absolute right-3 top-2.5 text-xs text-neutral-400 font-mono">
+              <span className="absolute right-3 top-2.5 text-xs text-neutral-500/80 font-mono">
                 {baseSymbol}
               </span>
             </div>
@@ -130,8 +134,8 @@ export const OrderForm: React.FC<Props> = ({
           {/* Limit Price Input with Confidence Band Guard */}
           <div>
             <div className="flex justify-between text-xs text-neutral-500 mb-1 font-mono">
-              <span>Limit Price</span>
-              <span>Envelope: ${oracle.minPrice.toFixed(2)} - ${oracle.maxPrice.toFixed(2)}</span>
+              <span>Limit Price (USD)</span>
+              <span className="text-signal-violet">Band: ${oracle.minPrice.toFixed(2)} - ${oracle.maxPrice.toFixed(2)}</span>
             </div>
             <div className="relative">
               <input
@@ -141,12 +145,12 @@ export const OrderForm: React.FC<Props> = ({
                 onChange={(e) => setPriceInput(e.target.value)}
                 className={`w-full h-10 px-3 py-2 bg-neutral-50 border rounded-lg text-neutral-900 font-mono text-sm focus:outline-none ${
                   isOutOfBand
-                    ? 'border-signal-red focus:border-signal-red focus:ring-2 focus:ring-signal-red/20'
-                    : 'border-neutral-200 focus:border-signal-amber focus:ring-2 focus:ring-signal-amber/20'
+                    ? 'border-signal-red focus:border-signal-red focus:ring-1 focus:ring-signal-red/20'
+                    : 'border-neutral-200 focus:border-signal-amber focus:ring-1 focus:ring-signal-amber/20'
                 }`}
                 placeholder={oracle.price.toFixed(2)}
               />
-              <span className="absolute right-3 top-2.5 text-xs text-neutral-400 font-mono">
+              <span className="absolute right-3 top-2.5 text-xs text-neutral-500/80 font-mono">
                 {quoteSymbol}
               </span>
             </div>
@@ -154,7 +158,7 @@ export const OrderForm: React.FC<Props> = ({
             {isOutOfBand && (
               <p className="text-signal-red text-xs mt-1.5 flex items-center gap-1 font-mono">
                 <WarningCircle size={13} weight="fill" />
-                <span>Price exceeds Pyth confidence band [${oracle.minPrice.toFixed(2)} - ${oracle.maxPrice.toFixed(2)}]</span>
+                <span>Price outside Pyth confidence band [${oracle.minPrice.toFixed(2)} - ${oracle.maxPrice.toFixed(2)}]</span>
               </p>
             )}
           </div>
@@ -162,22 +166,22 @@ export const OrderForm: React.FC<Props> = ({
           {/* Escrow Value Estimate */}
           <div className="p-3 bg-neutral-150 border border-neutral-200 rounded-lg text-xs space-y-1 font-mono">
             <div className="flex justify-between text-neutral-500">
-              <span>Required Escrow:</span>
+              <span>Required Vault Escrow:</span>
               <span className="text-neutral-900 font-bold tabular-nums">
                 {side === 'bid'
                   ? `$${totalValue.toFixed(2)} ${quoteSymbol}`
                   : `${lotSizeNum} ${baseSymbol}`}
               </span>
             </div>
-            <div className="flex justify-between text-[11px] text-neutral-400">
-              <span>Pricing Guarantee:</span>
-              <span className="text-signal-green">Uniform Clearing (P*)</span>
+            <div className="flex justify-between text-[11px] text-neutral-500/80">
+              <span>Execution Guarantee:</span>
+              <span className="text-signal-green font-bold">Uniform Clearing Price (P*)</span>
             </div>
           </div>
 
           {/* Error Notice */}
           {errorMsg && (
-            <div className="p-2.5 bg-signal-red/10 border border-signal-red/30 rounded-lg text-signal-red text-xs flex items-start gap-2">
+            <div className="p-2.5 bg-signal-red/10 border border-signal-red/30 rounded-lg text-signal-red text-xs flex items-start gap-2 font-mono">
               <WarningCircle size={15} weight="fill" className="shrink-0 mt-0.5" />
               <span>{errorMsg}</span>
             </div>
@@ -191,10 +195,10 @@ export const OrderForm: React.FC<Props> = ({
               placedFeedback
                 ? 'bg-signal-green text-neutral-50'
                 : !isBatchMode
-                ? 'bg-neutral-200 text-neutral-400 cursor-not-allowed border border-neutral-300'
+                ? 'bg-neutral-150 text-neutral-500/80 cursor-not-allowed border border-neutral-200'
                 : isOutOfBand
-                ? 'bg-neutral-200 text-neutral-400 cursor-not-allowed border border-neutral-300'
-                : 'bg-signal-amber text-neutral-50 hover:opacity-95'
+                ? 'bg-neutral-150 text-signal-red cursor-not-allowed border border-signal-red/30'
+                : 'bg-signal-amber text-neutral-50 hover:opacity-95 shadow-md shadow-signal-amber/10'
             }`}
           >
             {placedFeedback ? (
@@ -207,6 +211,11 @@ export const OrderForm: React.FC<Props> = ({
                 <ShieldCheck size={16} />
                 <span>Continuous Mode (Batch Order Gated)</span>
               </>
+            ) : isOutOfBand ? (
+              <>
+                <WarningCircle size={16} />
+                <span>Limit Price Out of Band</span>
+              </>
             ) : (
               <>
                 <span>Deposit & Escrow {side.toUpperCase()} Order</span>
@@ -216,8 +225,8 @@ export const OrderForm: React.FC<Props> = ({
         </form>
       </div>
 
-      <div className="mt-4 pt-3 border-t border-neutral-200 text-[11px] text-neutral-400 text-center font-mono">
-        All clearing prices are uniform. Unfilled limits and price improvement surpluses are 100% refundable.
+      <div className="mt-4 pt-3 border-t border-neutral-200 text-[11px] text-neutral-500 text-center font-mono">
+        Discrete uniform auction: all matched trades clear at exactly P*. Unfilled orders & buyer price-improvement surplus 100% refunded.
       </div>
     </div>
   );

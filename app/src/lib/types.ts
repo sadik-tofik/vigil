@@ -62,7 +62,7 @@ export interface EpochBatchState {
 
 export interface DocsPage {
   slug: string;
-  section: 'start-here' | 'core-concepts' | 'instructions' | 'security';
+  section: 'start-here' | 'core-concepts' | 'instructions' | 'security' | 'protocol' | 'tokenomics';
   sectionTitle: string;
   title: string;
   description: string;

@@ -1,8 +1,8 @@
-# TwilightBook Security Audit Report
+# Vigil Security Audit Report
 
-**Protocol**: TwilightBook — Discrete Uniform-Price Batch Auction for Tokenized Equities on Solana  
+**Protocol**: Vigil — Discrete Uniform-Price Batch Auction for Tokenized Equities on Solana  
 **Program ID**: `HBVEPbKCUemrSTwPQegnKHhA9JfuWJ82DDG8r6VfeQ4h`  
-**Audit Scope**: Core Smart Contract (`programs/twilight-book/src/`), Math Libraries (`math/`), State PDAs, and Invariant Guarantees.  
+**Audit Scope**: Core Smart Contract (`programs/vigil/src/`), Math Libraries (`math/`), State PDAs, and Invariant Guarantees.  
 **Auditor**: Protocol Security & Creative Engineering Review Pass  
 **Status**: Clean / Production Ready  
 
@@ -10,7 +10,7 @@
 
 ## 1. Executive Summary
 
-TwilightBook eliminates Toxic MEV, front-running, and latency arbitrage in tokenized equities by transitioning volatile or halted markets from continuous order books into discrete uniform-price batch auctions. 
+Vigil eliminates Toxic MEV, front-running, and latency arbitrage in tokenized equities by transitioning volatile or halted markets from continuous order books into discrete uniform-price batch auctions. 
 
 A comprehensive security analysis was performed across all six program instructions (`initialize_market`, `evaluate_market_mode`, `place_batch_order`, `cancel_batch_order`, `settle_batch_auction`, `claim_order_proceeds`, and the mock oracle utility `set_mock_oracle`).
 
@@ -44,12 +44,12 @@ A comprehensive security analysis was performed across all six program instructi
 ### 2.3 Oracle Manipulation & Front-Running
 - **Finding**: Attackers attempting to place outlier orders during wide spreads or using stale oracle feeds to manipulate clearing prices.
 - **Analysis**:
-  - **Fail-Closed Deserialization**: Pyth accounts are deserialized zero-copy via `pyth_sdk_solana::load_price_account`. If the magic number is invalid or length mismatch occurs, execution immediately terminates with `TwilightError::InvalidOracleData`.
-  - **Staleness Circuit**: Both `evaluate_market_mode` and `place_batch_order` verify that `Clock::get()?.unix_timestamp.saturating_sub(publish_time) <= 60`. Stale feeds trigger `TwilightError::StaleOracle` in order placement and immediately transition markets to `BatchAuction` mode.
+  - **Fail-Closed Deserialization**: Pyth accounts are deserialized zero-copy via `pyth_sdk_solana::load_price_account`. If the magic number is invalid or length mismatch occurs, execution immediately terminates with `VigilError::InvalidOracleData`.
+  - **Staleness Circuit**: Both `evaluate_market_mode` and `place_batch_order` verify that `Clock::get()?.unix_timestamp.saturating_sub(publish_time) <= 60`. Stale feeds trigger `VigilError::StaleOracle` in order placement and immediately transition markets to `BatchAuction` mode.
   - **Confidence Band Filtering**: Orders must satisfy:
     $$P_{\text{ref}} - k \cdot \sigma \le P_{\text{limit}} \le P_{\text{ref}} + k \cdot \sigma$$
-    Orders outside this band revert with `TwilightError::OrderPriceExceedsConfidenceBand`.
-  - **Anti-Sniping Freeze Window**: Orders cannot be placed or cancelled in the final slots before auction expiry (`current_slot < end_slot - FREEZE_WINDOW_SLOTS`). Reverts with `TwilightError::BatchFrozen`.
+    Orders outside this band revert with `VigilError::OrderPriceExceedsConfidenceBand`.
+  - **Anti-Sniping Freeze Window**: Orders cannot be placed or cancelled in the final slots before auction expiry (`current_slot < end_slot - FREEZE_WINDOW_SLOTS`). Reverts with `VigilError::BatchFrozen`.
 - **Verdict**: **SECURE**. Outlier injection and last-second order sniffing are mathematically and temporally mitigated.
 
 ### 2.4 Economic & Rounding Dust Exploitation

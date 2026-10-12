@@ -32,11 +32,11 @@ export const DocsNav: React.FC = () => {
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2.5 group">
               <div className="w-8 h-8 rounded-lg bg-neutral-100 border border-neutral-200 flex items-center justify-center font-bold text-neutral-900 text-xs tracking-wider">
-                TB
+                VG
               </div>
               <div className="flex items-baseline gap-1.5">
                 <span className="font-bold text-base text-neutral-900 tracking-tight group-hover:text-signal-amber transition-colors">
-                  TwilightBook
+                  Vigil
                 </span>
                 <span className="text-xs text-signal-amber font-mono font-medium">/docs</span>
               </div>

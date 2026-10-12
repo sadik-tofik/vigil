@@ -14,8 +14,8 @@ export const FeedbackWidget: React.FC<Props> = ({ filePath, prev, next }) => {
   const [feedback, setFeedback] = useState<'yes' | 'no' | null>(null);
 
   const gitHubUrl = filePath
-    ? `https://github.com/sadik-tofik/twilight-book/blob/main/${filePath}`
-    : 'https://github.com/sadik-tofik/twilight-book';
+    ? `https://github.com/sadik-tofik/vigil/blob/main/${filePath}`
+    : 'https://github.com/sadik-tofik/vigil';
 
   return (
     <div className="mt-12 pt-6 border-t border-neutral-200 space-y-6">

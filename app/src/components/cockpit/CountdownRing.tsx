@@ -85,9 +85,9 @@ export const CountdownRing: React.FC<Props> = ({
     : 'var(--signal-amber)';
 
   return (
-    <div className="bg-neutral-100 border border-neutral-200 rounded-lg p-4 sm:p-5 flex flex-col items-center justify-between">
+    <div className="bg-neutral-100 border border-neutral-200 rounded-xl p-4 sm:p-5 flex flex-col items-center justify-between shadow-xl transition-colors">
       <div className="w-full flex items-center justify-between border-b border-neutral-200 pb-3 mb-2">
-        <span className="text-xs uppercase tracking-[0.06em] text-neutral-500 font-semibold flex items-center gap-1.5">
+        <span className="text-xs uppercase tracking-[0.06em] text-neutral-500 font-semibold flex items-center gap-1.5 font-sans">
           <Timer size={14} weight="light" className="text-signal-amber" />
           <span>EPOCH AUCTION TIMER</span>
         </span>
@@ -98,7 +98,7 @@ export const CountdownRing: React.FC<Props> = ({
 
       <div className="relative flex items-center justify-center my-3">
         <svg className="w-24 h-24 transform -rotate-90">
-          {/* Background Track: neutral-200 */}
+          {/* Background Track */}
           <circle
             cx="48"
             cy="48"
@@ -112,7 +112,7 @@ export const CountdownRing: React.FC<Props> = ({
             cx="48"
             cy="48"
             r={radius}
-            stroke={strokeColor}
+            stroke={isEnded ? 'var(--signal-green)' : isFrozenWindow ? 'var(--signal-red)' : 'var(--signal-amber)'}
             strokeWidth="6"
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
@@ -123,8 +123,8 @@ export const CountdownRing: React.FC<Props> = ({
         </svg>
 
         <div className="absolute flex flex-col items-center justify-center text-center">
-          {/* Center digits: Martian Mono, text-3xl */}
-          <span className="font-martian text-3xl font-bold tabular-nums text-neutral-900 leading-none">
+          {/* Center digits */}
+          <span className="font-mono text-3xl font-bold tabular-nums text-neutral-900 leading-none">
             {secondsRemaining}s
           </span>
           <span className="text-[10px] text-neutral-500 font-mono uppercase tracking-wider mt-1">
@@ -136,12 +136,12 @@ export const CountdownRing: React.FC<Props> = ({
       {/* Freeze Window or Status Banner */}
       <div className="w-full mt-2">
         {isFrozenWindow ? (
-          <div className="flex items-center justify-center gap-1.5 py-1 px-2.5 rounded-lg bg-signal-red/10 border border-signal-red/30 text-signal-red text-[11px] font-mono">
+          <div className="flex items-center justify-center gap-1.5 py-1 px-2.5 rounded-lg bg-signal-red/10 border border-signal-red/30 text-signal-red text-[11px] font-mono font-bold animate-pulse">
             <Lock size={12} weight="fill" />
-            <span>Freeze Window Active (&lt;10 slots)</span>
+            <span>Anti-Sniping Freeze Active (&lt;10 slots)</span>
           </div>
         ) : isEnded ? (
-          <div className="flex items-center justify-center gap-1.5 py-1 px-2.5 rounded-lg bg-signal-green/10 border border-signal-green/30 text-signal-green text-[11px] font-mono">
+          <div className="flex items-center justify-center gap-1.5 py-1 px-2.5 rounded-lg bg-signal-green/10 border border-signal-green/30 text-signal-green text-[11px] font-mono font-bold">
             <span>Auction Closed · Ready to Settle</span>
           </div>
         ) : (

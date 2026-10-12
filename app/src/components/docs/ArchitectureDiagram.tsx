@@ -12,7 +12,7 @@ export const ArchitectureDiagram: React.FC = () => {
               <stop offset="0%" stopColor="var(--signal-green)" stopOpacity="0.20" />
               <stop offset="100%" stopColor="var(--signal-green)" stopOpacity="0.04" />
             </linearGradient>
-            <linearGradient id="gradTwilight" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id="gradVigil" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="var(--signal-violet)" stopOpacity="0.20" />
               <stop offset="100%" stopColor="var(--signal-violet)" stopOpacity="0.04" />
             </linearGradient>
@@ -37,10 +37,10 @@ export const ArchitectureDiagram: React.FC = () => {
             Pyth Conf ≤ 200 bps · Status: Trading
           </text>
 
-          {/* Bottom Block: Twilight Batch Auction */}
-          <rect x="40" y="180" width="280" height="110" rx="8" fill="url(#gradTwilight)" stroke="var(--signal-violet)" strokeWidth="1.5" />
+          {/* Bottom Block: Vigil Batch Auction */}
+          <rect x="40" y="180" width="280" height="110" rx="8" fill="url(#gradVigil)" stroke="var(--signal-violet)" strokeWidth="1.5" />
           <text x="60" y="210" fill="var(--signal-violet)" fontWeight="bold" fontSize="13" fontFamily="var(--font-sans)">
-            Twilight Batch Auction (Discrete)
+            Vigil Batch Auction (Discrete)
           </text>
           <text x="60" y="232" fill="var(--neutral-900)" fontSize="11" fontFamily="var(--font-sans)">
             • 32-Order Ring Buffer · Uniform Price P*
