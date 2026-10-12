@@ -43,8 +43,7 @@ export default function RootLayout({
               (function() {
                 try {
                   var saved = localStorage.getItem('vigil_theme');
-                  var systemLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-                  var theme = saved || (systemLight ? 'light' : 'dark');
+                  var theme = saved || 'dark';
                   document.documentElement.setAttribute('data-theme', theme);
                 } catch(e) {}
               })();

@@ -11,8 +11,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
     const syncTheme = () => {
       const docTheme = document.documentElement.getAttribute("data-theme") as "dark" | "light" | null;
       const stored = localStorage.getItem("vigil_theme") as "dark" | "light" | null;
-      const systemLight = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
-      const current = stored || docTheme || (systemLight ? "light" : "dark");
+      const current = stored || docTheme || "dark";
       setTheme(current);
       document.documentElement.setAttribute("data-theme", current);
     };
